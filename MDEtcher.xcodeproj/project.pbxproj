@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		231B180223CA00F70079506C /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231B180123CA00F70079506C /* Markdown.swift */; };
+		2334449923CF10E2009FDA8F /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334449823CF10E2009FDA8F /* CSVReader.swift */; };
+		233DD31223C491E700E3D1E6 /* pandoc in Resources */ = {isa = PBXBuildFile; fileRef = 233DD31123C491E700E3D1E6 /* pandoc */; };
+		233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */; };
+		2342EF1A23DBC87F00442E07 /* TextViewProofReaderAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */; };
+		2342EF1F23DC0B2D00442E07 /* VoicesSelectorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */; };
+		2342EF2023DC0B2D00442E07 /* VoicesSelectorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */; };
+		2352C55B23C3FED3009E0BB2 /* CommonSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2352C55A23C3FED3009E0BB2 /* CommonSwift */; };
+		2352C55F23C44B07009E0BB2 /* Pandoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2352C55E23C44B07009E0BB2 /* Pandoc.swift */; };
+		23845FB423C748A2008852E7 /* Highlighter in Frameworks */ = {isa = PBXBuildFile; productRef = 23845FB323C748A2008852E7 /* Highlighter */; };
+		2384605823C75304008852E7 /* highlighter in Resources */ = {isa = PBXBuildFile; fileRef = 2384605723C75304008852E7 /* highlighter */; };
+		2384605B23C82BCC008852E7 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2384605923C82B92008852E7 /* WebKit.framework */; };
+		239B727623C335AB008D719C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B727523C335AB008D719C /* AppDelegate.swift */; };
+		239B727823C335AB008D719C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B727723C335AB008D719C /* ViewController.swift */; };
+		239B727A23C335AB008D719C /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B727923C335AB008D719C /* Document.swift */; };
+		239B727C23C335AE008D719C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 239B727B23C335AE008D719C /* Assets.xcassets */; };
+		239B727F23C335AE008D719C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 239B727D23C335AE008D719C /* Main.storyboard */; };
+		23B3AF2523CC8B7A0038F8A2 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B3AF2423CC8B7A0038F8A2 /* Utils.swift */; };
+		23E7D24E23D84E6C00285FF6 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E7D24D23D84E6C00285FF6 /* Preference.swift */; };
+		23E7D25023DAC25A00285FF6 /* MDEtcher.icns in Resources */ = {isa = PBXBuildFile; fileRef = 23E7D24F23DAC25900285FF6 /* MDEtcher.icns */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		231B180123CA00F70079506C /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
+		2334449823CF10E2009FDA8F /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
+		233DD31123C491E700E3D1E6 /* pandoc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pandoc; sourceTree = "<group>"; };
+		233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDownEditorView.swift; sourceTree = "<group>"; };
+		2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewProofReaderAV.swift; sourceTree = "<group>"; };
+		2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicesSelectorWindowController.swift; sourceTree = "<group>"; };
+		2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoicesSelectorWindowController.xib; sourceTree = "<group>"; };
+		2352C55E23C44B07009E0BB2 /* Pandoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pandoc.swift; sourceTree = "<group>"; };
+		2384605723C75304008852E7 /* highlighter */ = {isa = PBXFileReference; lastKnownFileType = folder; path = highlighter; sourceTree = "<group>"; };
+		2384605923C82B92008852E7 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		239B727223C335AB008D719C /* MDEtcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDEtcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		239B727523C335AB008D719C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		239B727723C335AB008D719C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		239B727923C335AB008D719C /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		239B727B23C335AE008D719C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		239B727E23C335AE008D719C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		239B728023C335AE008D719C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		239B728123C335AE008D719C /* MDEtcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MDEtcher.entitlements; sourceTree = "<group>"; };
+		23B3AF2423CC8B7A0038F8A2 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		23E7D24D23D84E6C00285FF6 /* Preference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
+		23E7D24F23DAC25900285FF6 /* MDEtcher.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MDEtcher.icns; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		239B726F23C335AB008D719C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23845FB423C748A2008852E7 /* Highlighter in Frameworks */,
+				2352C55B23C3FED3009E0BB2 /* CommonSwift in Frameworks */,
+				2384605B23C82BCC008852E7 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2352C55C23C41F17009E0BB2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2384605923C82B92008852E7 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		239B726923C335AB008D719C = {
+			isa = PBXGroup;
+			children = (
+				2384605723C75304008852E7 /* highlighter */,
+				233DD31123C491E700E3D1E6 /* pandoc */,
+				239B727423C335AB008D719C /* MDEtcher */,
+				239B727323C335AB008D719C /* Products */,
+				2352C55C23C41F17009E0BB2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		239B727323C335AB008D719C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				239B727223C335AB008D719C /* MDEtcher.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		239B727423C335AB008D719C /* MDEtcher */ = {
+			isa = PBXGroup;
+			children = (
+				233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */,
+				239B727523C335AB008D719C /* AppDelegate.swift */,
+				239B727723C335AB008D719C /* ViewController.swift */,
+				239B727923C335AB008D719C /* Document.swift */,
+				239B727B23C335AE008D719C /* Assets.xcassets */,
+				239B727D23C335AE008D719C /* Main.storyboard */,
+				239B728023C335AE008D719C /* Info.plist */,
+				23E7D24F23DAC25900285FF6 /* MDEtcher.icns */,
+				239B728123C335AE008D719C /* MDEtcher.entitlements */,
+				2352C55E23C44B07009E0BB2 /* Pandoc.swift */,
+				231B180123CA00F70079506C /* Markdown.swift */,
+				23B3AF2423CC8B7A0038F8A2 /* Utils.swift */,
+				2334449823CF10E2009FDA8F /* CSVReader.swift */,
+				23E7D24D23D84E6C00285FF6 /* Preference.swift */,
+				2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */,
+				2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */,
+				2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */,
+			);
+			path = MDEtcher;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		239B727123C335AB008D719C /* MDEtcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 239B728423C335AE008D719C /* Build configuration list for PBXNativeTarget "MDEtcher" */;
+			buildPhases = (
+				239B726E23C335AB008D719C /* Sources */,
+				239B726F23C335AB008D719C /* Frameworks */,
+				239B727023C335AB008D719C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MDEtcher;
+			packageProductDependencies = (
+				2352C55A23C3FED3009E0BB2 /* CommonSwift */,
+				23845FB323C748A2008852E7 /* Highlighter */,
+			);
+			productName = MDEtcher;
+			productReference = 239B727223C335AB008D719C /* MDEtcher.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		239B726A23C335AB008D719C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = psksvp;
+				TargetAttributes = {
+					239B727123C335AB008D719C = {
+						CreatedOnToolsVersion = 11.3;
+					};
+				};
+			};
+			buildConfigurationList = 239B726D23C335AB008D719C /* Build configuration list for PBXProject "MDEtcher" */;
+			compatibilityVersion = "Xcode 11.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 239B726923C335AB008D719C;
+			packageReferences = (
+				2352C55923C3FED3009E0BB2 /* XCRemoteSwiftPackageReference "CommonSwift" */,
+				23845FB223C748A2008852E7 /* XCRemoteSwiftPackageReference "Highlighter" */,
+			);
+			productRefGroup = 239B727323C335AB008D719C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				239B727123C335AB008D719C /* MDEtcher */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		239B727023C335AB008D719C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				239B727C23C335AE008D719C /* Assets.xcassets in Resources */,
+				233DD31223C491E700E3D1E6 /* pandoc in Resources */,
+				23E7D25023DAC25A00285FF6 /* MDEtcher.icns in Resources */,
+				2384605823C75304008852E7 /* highlighter in Resources */,
+				239B727F23C335AE008D719C /* Main.storyboard in Resources */,
+				2342EF2023DC0B2D00442E07 /* VoicesSelectorWindowController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		239B726E23C335AB008D719C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2352C55F23C44B07009E0BB2 /* Pandoc.swift in Sources */,
+				2334449923CF10E2009FDA8F /* CSVReader.swift in Sources */,
+				239B727823C335AB008D719C /* ViewController.swift in Sources */,
+				239B727623C335AB008D719C /* AppDelegate.swift in Sources */,
+				239B727A23C335AB008D719C /* Document.swift in Sources */,
+				23B3AF2523CC8B7A0038F8A2 /* Utils.swift in Sources */,
+				231B180223CA00F70079506C /* Markdown.swift in Sources */,
+				23E7D24E23D84E6C00285FF6 /* Preference.swift in Sources */,
+				2342EF1A23DBC87F00442E07 /* TextViewProofReaderAV.swift in Sources */,
+				233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */,
+				2342EF1F23DC0B2D00442E07 /* VoicesSelectorWindowController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		239B727D23C335AE008D719C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				239B727E23C335AE008D719C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		239B728223C335AE008D719C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		239B728323C335AE008D719C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		239B728523C335AE008D719C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MDEtcher/MDEtcherDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MK7G95UB6E;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = MDEtcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = psksvp.MDEtcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		239B728623C335AE008D719C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MDEtcher/MDEtcher.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MK7G95UB6E;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = MDEtcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = psksvp.MDEtcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		239B726D23C335AB008D719C /* Build configuration list for PBXProject "MDEtcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				239B728223C335AE008D719C /* Debug */,
+				239B728323C335AE008D719C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		239B728423C335AE008D719C /* Build configuration list for PBXNativeTarget "MDEtcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				239B728523C335AE008D719C /* Debug */,
+				239B728623C335AE008D719C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2352C55923C3FED3009E0BB2 /* XCRemoteSwiftPackageReference "CommonSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/psksvp/CommonSwift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		23845FB223C748A2008852E7 /* XCRemoteSwiftPackageReference "Highlighter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/psksvp/Highlighter";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2352C55A23C3FED3009E0BB2 /* CommonSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2352C55923C3FED3009E0BB2 /* XCRemoteSwiftPackageReference "CommonSwift" */;
+			productName = CommonSwift;
+		};
+		23845FB323C748A2008852E7 /* Highlighter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23845FB223C748A2008852E7 /* XCRemoteSwiftPackageReference "Highlighter" */;
+			productName = Highlighter;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 239B726A23C335AB008D719C /* Project object */;
+}

@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CommonSwift",
+        "repositoryURL": "https://github.com/psksvp/CommonSwift",
+        "state": {
+          "branch": "master",
+          "revision": "6fa63495ba0d3e747c30954a29d1194933203bf2",
+          "version": null
+        }
+      },
+      {
+        "package": "Highlighter",
+        "repositoryURL": "https://github.com/psksvp/Highlighter",
+        "state": {
+          "branch": "master",
+          "revision": "4c43a3afcf6c05cf7ee537afebf93b028355cfe3",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
