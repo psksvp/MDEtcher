@@ -469,6 +469,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
+                                        <menuItem title="Hide Preview" keyEquivalent="0" id="Isk-Rh-NaJ" userLabel="Hide Preview">
+                                            <connections>
+                                                <action selector="hideShowPreview:" target="Ady-hI-5gd" id="O6R-NR-GP6"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="80l-Go-iop"/>
                                         <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
@@ -544,16 +550,16 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-37" y="-254"/>
+            <point key="canvasLocation" x="-626" y="-493"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="Document Window Controller" id="jGA-0Y-lOj" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="Ckk-yw-fiv">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="Ckk-yw-fiv">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="771" height="752"/>
+                        <rect key="contentRect" x="196" y="240" width="459" height="568"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="jGA-0Y-lOj" id="98r-iN-zZc"/>
@@ -565,37 +571,37 @@
                 </windowController>
                 <customObject id="6f7-a7-6o1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="22" y="287"/>
+            <point key="canvasLocation" x="-455" y="78"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="5gI-5U-AMq" customClass="ViewController" customModule="MDEtcher" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ERx-hH-rdd">
-                        <rect key="frame" x="0.0" y="0.0" width="829" height="491"/>
+                        <rect key="frame" x="0.0" y="0.0" width="854" height="785"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <splitView fixedFrame="YES" arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YAg-MX-ZlE">
-                                <rect key="frame" x="0.0" y="0.0" width="829" height="491"/>
+                            <splitView fixedFrame="YES" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YAg-MX-ZlE">
+                                <rect key="frame" x="0.0" y="0.0" width="854" height="785"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <customView fixedFrame="YES" id="kHY-uX-jbX">
-                                        <rect key="frame" x="0.0" y="0.0" width="412" height="491"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="426" height="785"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EMC-P8-pd4">
-                                                <rect key="frame" x="0.0" y="0.0" width="412" height="458"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="426" height="752"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="fjs-75-g2H">
-                                                    <rect key="frame" x="1" y="1" width="395" height="456"/>
+                                                    <rect key="frame" x="1" y="1" width="409" height="750"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="bar" incrementalSearchingEnabled="YES" continuousSpellChecking="YES" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" usesRuler="YES" grammarChecking="YES" smartInsertDelete="YES" id="Wsq-aK-2Hh" customClass="MarkDownEditorView" customModule="MDEtcher" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="395" height="456"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="409" height="750"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="395" height="456"/>
+                                                            <size key="minSize" width="409" height="750"/>
                                                             <size key="maxSize" width="499" height="10000000"/>
                                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -606,12 +612,12 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="0kb-X5-aPE">
-                                                    <rect key="frame" x="396" y="1" width="15" height="456"/>
+                                                    <rect key="frame" x="410" y="1" width="15" height="750"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M5y-Of-SRm">
-                                                <rect key="frame" x="5" y="469" width="52" height="16"/>
+                                                <rect key="frame" x="5" y="763" width="52" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Outline:" id="4x2-Cf-uLy">
                                                     <font key="font" metaFont="system"/>
@@ -620,7 +626,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yPd-Lc-avo">
-                                                <rect key="frame" x="61" y="463" width="334" height="25"/>
+                                                <rect key="frame" x="61" y="757" width="347" height="25"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" arrowPosition="arrowAtCenter" id="XFt-cH-SDh">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -640,11 +646,11 @@
                                         </subviews>
                                     </customView>
                                     <customView fixedFrame="YES" id="Vcz-TO-bLB">
-                                        <rect key="frame" x="422" y="0.0" width="407" height="491"/>
+                                        <rect key="frame" x="435" y="0.0" width="419" height="785"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <wkWebView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3f-7l-VuC">
-                                                <rect key="frame" x="0.0" y="0.0" width="400" height="458"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="412" height="752"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <wkWebViewConfiguration key="configuration">
                                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -652,12 +658,12 @@
                                                 </wkWebViewConfiguration>
                                             </wkWebView>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0O2-WG-ie6">
-                                                <rect key="frame" x="371" y="464" width="30" height="24"/>
+                                                <rect key="frame" x="383" y="758" width="30" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSStatusAvailable" id="9eo-5S-1dO"/>
                                             </imageView>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6T-by-ybk">
-                                                <rect key="frame" x="7" y="469" width="34" height="16"/>
+                                                <rect key="frame" x="7" y="763" width="34" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="CSS:" id="5Bz-8A-OP7">
                                                     <font key="font" metaFont="system"/>
@@ -666,7 +672,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BeS-Fb-qo7">
-                                                <rect key="frame" x="42" y="463" width="330" height="25"/>
+                                                <rect key="frame" x="42" y="757" width="331" height="25"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Muq-za-Lph">
                                                     <font key="font" metaFont="system"/>
@@ -699,7 +705,7 @@
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="71.5" y="1193.5"/>
+            <point key="canvasLocation" x="-291" y="893.5"/>
         </scene>
     </scenes>
     <resources>

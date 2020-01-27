@@ -63,6 +63,20 @@ struct Preference
     }
   }
   
+  static var editorOnLeft: Bool
+  {
+    get
+    {
+      return readDefault(forkey: "editorOnLeft", notFoundReturn: "t") == "t"
+    }
+    
+    set
+    {
+      let s = newValue ? "t" : "f"
+      UserDefaults.standard.set(s, forKey: "editorOnLeft")
+    }
+  }
+  
   static var editorTheme: String = ""
   static var previewCSS: String = ""
 }

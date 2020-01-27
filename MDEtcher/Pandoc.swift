@@ -63,7 +63,19 @@ class Pandoc
     return run(markdown, args)
   }
   
-  public func write(markdown: String, toPDF pdfOutputPath: String) -> Void
+  public func write(_ md: String, toHTMLFileAtPath path:String, usingCSS css: String) -> Void
+  {
+    if let html = self.toHTML(markdown: md, css: css)
+    {
+      FS.writeText(inString: html, toPath: path)
+    }
+    else
+    {
+      Log.error("Pandoc fail to write HTML to path \(path)")
+    }
+  }
+  
+  public func write(_ md: String, toPDF pdfOutputPath: String) -> Void
   {
     let args = ["--top-level-division=chapter",
                 "--toc",
@@ -72,6 +84,6 @@ class Pandoc
                 "-V", "geometry:a4paper",
                 "-o", pdfOutputPath]
     
-    run(markdown, args)
+    run(md, args)
   }
 }

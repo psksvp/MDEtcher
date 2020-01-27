@@ -35,6 +35,31 @@ func readDefault(forkey key:String, notFoundReturn:  String) -> String
   }
 }
 
+func htmlString(inWkWebView w: WKWebView) -> String?
+{
+  var htmlString: String? = nil
+  
+  DispatchQueue.global(qos: .background).sync
+  {
+    w.evaluateJavaScript("document.documentElement.outerHTML.toString()")
+    {
+      (data, error) in
+
+      if let d = data,
+        let html = d as? String
+      {
+        htmlString = html
+      }
+      else
+      {
+        Log.warn("Did not copy HTML")
+        dump(error)
+      }
+    }
+  }
+  return htmlString
+}
+
 extension WKWebView
 {
   /// does not work eval JS is async

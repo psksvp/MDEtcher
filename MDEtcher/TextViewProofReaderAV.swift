@@ -116,8 +116,8 @@ func voiceInfoOfNSSpeechSynthesizer() -> [String]
     //let language = attributes[.localeIdentifier]! as? String
     //let gender = attributes[.gender]! as? String
   
-    let vs = "\(voiceName!)"
-    names.append(vs)
+    //let vs = "\(voiceName!)-\(language!)"
+    names.append(voiceName!)
   }
   return names
 }
@@ -223,11 +223,22 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
                          willSpeakWord characterRange: NSRange,
                          of string: String)
   {
-    if let r = self.textView.string.intIndex(of: string)
+    DispatchQueue.main.async  // this delegate is called from a thread, so put on the main thread for GUI stuff
     {
-      let m = NSMakeRange(r + characterRange.location, characterRange.length)
-      //print("\(r) -> \(m)")
-      self.textView.setSelectedRange(m)
+      let s = self.textView.string
+      if let r = s.intIndex(of: string)
+      {
+        let m = NSMakeRange(r + characterRange.location, characterRange.length)
+      
+        if s.isRangeInBound(m)
+        {
+          self.textView.setSelectedRange(m)
+        }
+        else
+        {
+          Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
+        }
+      }
     }
   }
   
@@ -248,6 +259,15 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
       case "voice" : self.changeVoice()
       default      : Log.error("ProofReader.handleAction don't know action \(s)")
     }
+  }
+}
+
+extension String
+{
+  func isRangeInBound(_ range: NSRange) -> Bool
+  {
+    guard let _ = Range(range, in: self) else {return false}
+    return true
   }
 }
 

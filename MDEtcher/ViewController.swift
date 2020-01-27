@@ -33,7 +33,8 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   private var updatingPreview = false
   private var visibleTop:CGFloat = 0.0
   
-  
+  //private let previewRenderingAnimationView = NSImageView(image: pandoc.busyImage!)
+
   private func setupEditor()
   {
     textStorage.language = "Markdown"
@@ -392,7 +393,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   @IBAction func exportPDF(_ send: Any)
   {
     let savePanel = NSSavePanel()
-    savePanel.nameFieldStringValue = "output.pdf"
+    savePanel.nameFieldStringValue = "\(self.view.window!.title).pdf"
     savePanel.allowedFileTypes = ["pdf"]
     savePanel.beginSheetModal(for: self.view.window!)
     {
@@ -402,7 +403,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
         guard let url = savePanel.url else {return}
         DispatchQueue.global(qos: .background).async
         {
-          self.pandoc.write(markdown: self.editorView.string,
+          self.pandoc.write(self.editorView.string,
                             toPDF: url.path)
         }
       }
@@ -411,6 +412,26 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   
   @IBAction func exportHTML(_ sender: Any)
   {
+    let cssName = readDefault(forkey: "previewCss",
+                              notFoundReturn: "style.epub.css")
+    let md = editorView.string
+
+    let savePanel = NSSavePanel()
+    savePanel.nameFieldStringValue = "\(self.view.window!.title).html"
+    savePanel.allowedFileTypes = ["html"]
+    savePanel.beginSheetModal(for: self.view.window!)
+    {
+      respond in
+      if respond == NSApplication.ModalResponse.OK
+      {
+        guard let url = savePanel.url else {return}
+        DispatchQueue.global(qos: .background).async
+        {
+          self.pandoc.write(md, toHTMLFileAtPath: url.path,
+                                usingCSS: cssName)
+        }
+      }
+    }
   }
   
   @IBAction func editorScrollingPreview(_ sender: Any)
@@ -423,6 +444,20 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     if let mi = sender as? NSMenuItem
     {
       editorView.proofReader.handleAction(mi.title)
+    }
+  }
+  
+  @IBAction func hideShowPreview(_ sender: NSMenuItem)
+  {
+    if sender.title.lowercased().contains("hide")
+    {
+      mainView.setPosition(mainView.frame.size.width, ofDividerAt: 0)
+      sender.title = "Show Preview"
+    }
+    else
+    {
+      mainView.setPosition(mainView.frame.size.width / 2, ofDividerAt: 0)
+      sender.title = "Hide Preview"
     }
   }
 }
