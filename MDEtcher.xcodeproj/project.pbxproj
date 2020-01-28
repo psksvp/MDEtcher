@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		231B180223CA00F70079506C /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231B180123CA00F70079506C /* Markdown.swift */; };
+		232CE39323E04FE00048EFA4 /* WorkPrograssWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */; };
+		232CE39423E04FE00048EFA4 /* WorkPrograssWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */; };
 		2334449923CF10E2009FDA8F /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334449823CF10E2009FDA8F /* CSVReader.swift */; };
 		233DD31223C491E700E3D1E6 /* pandoc in Resources */ = {isa = PBXBuildFile; fileRef = 233DD31123C491E700E3D1E6 /* pandoc */; };
 		233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		231B180123CA00F70079506C /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
+		232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkPrograssWindowController.swift; sourceTree = "<group>"; };
+		232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkPrograssWindowController.xib; sourceTree = "<group>"; };
 		2334449823CF10E2009FDA8F /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
 		233DD31123C491E700E3D1E6 /* pandoc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pandoc; sourceTree = "<group>"; };
 		233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDownEditorView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 				2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */,
 				2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */,
 				2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */,
+				232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */,
+				232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */,
 			);
 			path = MDEtcher;
 			sourceTree = "<group>";
@@ -190,6 +196,7 @@
 				2384605823C75304008852E7 /* highlighter in Resources */,
 				239B727F23C335AE008D719C /* Main.storyboard in Resources */,
 				2342EF2023DC0B2D00442E07 /* VoicesSelectorWindowController.xib in Resources */,
+				232CE39423E04FE00048EFA4 /* WorkPrograssWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +216,7 @@
 				231B180223CA00F70079506C /* Markdown.swift in Sources */,
 				23E7D24E23D84E6C00285FF6 /* Preference.swift in Sources */,
 				2342EF1A23DBC87F00442E07 /* TextViewProofReaderAV.swift in Sources */,
+				232CE39323E04FE00048EFA4 /* WorkPrograssWindowController.swift in Sources */,
 				233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */,
 				2342EF1F23DC0B2D00442E07 /* VoicesSelectorWindowController.swift in Sources */,
 			);

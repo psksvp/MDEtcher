@@ -421,6 +421,27 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     }
   }
   
+  @IBAction func exportAiff(_ send: Any)
+  {
+    let savePanel = NSSavePanel()
+    savePanel.nameFieldStringValue = "\(self.view.window!.title).aiff"
+    savePanel.allowedFileTypes = ["aiff"]
+    savePanel.beginSheetModal(for: self.view.window!)
+    {
+      respond in
+      if respond == NSApplication.ModalResponse.OK
+      {
+        guard let url = savePanel.url else {return}
+        self.editorView.proofReader.text = self.editorView.string
+        WorkPrograssWindowController.shared.show("Exporting \(url.path)")
+        DispatchQueue.global(qos: .background).async
+        {
+          self.editorView.proofReader.start(toURL: url)
+        }
+      }
+    }
+  }
+  
   @IBAction func exportHTML(_ sender: Any)
   {
     let cssName = readDefault(forkey: "previewCss",

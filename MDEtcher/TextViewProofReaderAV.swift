@@ -11,98 +11,98 @@ import AppKit
 import AVFoundation
 import CommonSwift
 
-class TextViewProofReaderAV: NSObject, AVSpeechSynthesizerDelegate
-{
-  private var synthesizer = AVSpeechSynthesizer()
-  private let textView: NSTextView
-  private var text:String? = nil
-  
-  init(forTextView tv: NSTextView)
-  {
-    self.textView = tv
-    super.init()
-    self.synthesizer.delegate = self
-  }
-  
-  func changeVoice()
-  {
-    for v in AVSpeechSynthesisVoice.speechVoices()
-    {
-      print("\(v.name) \(v.identifier) \(v.quality == .enhanced ? "good" : "bad") ")
-    }
-  }
-  
-  func startAtCursor()
-  {
-    text = textView.textBlockAtCursor()
-    start()
-  }
-  
-  func start()
-  {
-    if self.synthesizer.isSpeaking
-    {
-      Log.warn("ProofReader is speaking, will not start another one")
-    }
-    
-    if let s = text
-    {
-      let u = AVSpeechUtterance(string: s)
-      u.rate = 0.35
-      u.pitchMultiplier = 0.25
-      u.voice = AVSpeechSynthesisVoice(identifier: "com.apple.ttsbundle.siri_female_en-US_compact")
-      self.synthesizer.speak(u)
-    }
-    else
-    {
-      Log.error("ProofReader did not start, text is nil")
-    }
-    
-  }
-  
-  func stop()
-  {
-    if self.synthesizer.isSpeaking
-    {
-      self.synthesizer.stopSpeaking(at: .word)
-    }
-  }
-  
-  
-  // delegate
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
-                         willSpeakRangeOfSpeechString characterRange: NSRange,
-                         utterance: AVSpeechUtterance)
-  {
-    DispatchQueue.main.async  // this delegate is called from a thread, so put on the main thread for GUI stuff
-    {
-      if let r = self.textView.string.intIndex(of: utterance.speechString)
-      {
-        let m = NSMakeRange(r + characterRange.location, characterRange.length)
-        self.textView.setSelectedRange(m)
-      }
-    }
-  }
-  
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
-                         didFinish utterance: AVSpeechUtterance)
-  {
-    self.text = nil
-  }
-  
-  // handle actions
-  func handleAction(_ s: String)
-  {
-    switch s.lowercased()
-    {
-      case "start" : self.startAtCursor()
-      case "stop"  : self.stop()
-      case "pause" : Log.info("ProofReaderAV.pause() is dummy")
-      case "voice" : self.changeVoice()
-      default      : Log.error("ProofReaderAV.handleAction don't know action \(s)")
-    }
-  }
-}
+//class TextViewProofReaderAV: NSObject, AVSpeechSynthesizerDelegate
+//{
+//  private var synthesizer = AVSpeechSynthesizer()
+//  private let textView: NSTextView
+//  private var text:String? = nil
+//
+//  init(forTextView tv: NSTextView)
+//  {
+//    self.textView = tv
+//    super.init()
+//    self.synthesizer.delegate = self
+//  }
+//
+//  func changeVoice()
+//  {
+//    for v in AVSpeechSynthesisVoice.speechVoices()
+//    {
+//      print("\(v.name) \(v.identifier) \(v.quality == .enhanced ? "good" : "bad") ")
+//    }
+//  }
+//
+//  func startAtCursor()
+//  {
+//    text = textView.textBlockAtCursor()
+//    start()
+//  }
+//
+//  func start()
+//  {
+//    if self.synthesizer.isSpeaking
+//    {
+//      Log.warn("ProofReader is speaking, will not start another one")
+//    }
+//
+//    if let s = text
+//    {
+//      let u = AVSpeechUtterance(string: s)
+//      u.rate = 0.35
+//      u.pitchMultiplier = 0.25
+//      u.voice = AVSpeechSynthesisVoice(identifier: "com.apple.ttsbundle.siri_female_en-US_compact")
+//      self.synthesizer.speak(u)
+//    }
+//    else
+//    {
+//      Log.error("ProofReader did not start, text is nil")
+//    }
+//
+//  }
+//
+//  func stop()
+//  {
+//    if self.synthesizer.isSpeaking
+//    {
+//      self.synthesizer.stopSpeaking(at: .word)
+//    }
+//  }
+//
+//
+//  // delegate
+//  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+//                         willSpeakRangeOfSpeechString characterRange: NSRange,
+//                         utterance: AVSpeechUtterance)
+//  {
+//    DispatchQueue.main.async  // this delegate is called from a thread, so put on the main thread for GUI stuff
+//    {
+//      if let r = self.textView.string.intIndex(of: utterance.speechString)
+//      {
+//        let m = NSMakeRange(r + characterRange.location, characterRange.length)
+//        self.textView.setSelectedRange(m)
+//      }
+//    }
+//  }
+//
+//  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+//                         didFinish utterance: AVSpeechUtterance)
+//  {
+//    self.text = nil
+//  }
+//
+//  // handle actions
+//  func handleAction(_ s: String)
+//  {
+//    switch s.lowercased()
+//    {
+//      case "start" : self.startAtCursor()
+//      case "stop"  : self.stop()
+//      case "pause" : Log.info("ProofReaderAV.pause() is dummy")
+//      case "voice" : self.changeVoice()
+//      default      : Log.error("ProofReaderAV.handleAction don't know action \(s)")
+//    }
+//  }
+//}
 
 
 //////////////////////////////
@@ -157,7 +157,9 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
 {
   private var synthesizer = newSpeechSynthesizer(withVoice: "Samantha")
   private let textView: NSTextView
-  private var text:String? = nil
+  private var writingToFile = false
+  
+  var text:String? = nil
   
   init(forTextView tv: NSTextView)
   {
@@ -176,7 +178,7 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
     start()
   }
   
-  func start()
+  func start(toURL url: URL? = nil)
   {
     if self.synthesizer.isSpeaking
     {
@@ -192,7 +194,17 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
         self.synthesizer.setVoice(voice)
       }
       self.synthesizer.rate = Preference.proofReadVoiceRate
-      self.synthesizer.startSpeaking(s)
+      
+      if let fileURL = url
+      {
+        writingToFile = true
+        self.synthesizer.startSpeaking(s, to: fileURL)
+      }
+      else
+      {
+        writingToFile = false
+        self.synthesizer.startSpeaking(s)
+      }
     }
     else
     {
@@ -223,20 +235,27 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
                          willSpeakWord characterRange: NSRange,
                          of string: String)
   {
-    DispatchQueue.main.async  // this delegate is called from a thread, so put on the main thread for GUI stuff
+    DispatchQueue.main.async  // this delegate is called from a thread?, so put on the main thread for GUI stuff
     {
-      let s = self.textView.string
-      if let r = s.intIndex(of: string)
+      if self.writingToFile
       {
-        let m = NSMakeRange(r + characterRange.location, characterRange.length)
-      
-        if s.isRangeInBound(m)
+        WorkPrograssWindowController.shared.infoText.stringValue = string
+      }
+      else
+      {
+        let s = self.textView.string
+        if let r = s.intIndex(of: string)
         {
-          self.textView.setSelectedRange(m)
-        }
-        else
-        {
-          Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
+          let m = NSMakeRange(r + characterRange.location, characterRange.length)
+        
+          if s.isRangeInBound(m)
+          {
+            self.textView.setSelectedRange(m)
+          }
+          else
+          {
+            Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
+          }
         }
       }
     }
@@ -246,6 +265,10 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
                          didFinishSpeaking finishedSpeaking: Bool)
   {
     self.text = nil
+    if writingToFile
+    {
+      WorkPrograssWindowController.shared.hide()
+    }
   }
   
   // handle actions

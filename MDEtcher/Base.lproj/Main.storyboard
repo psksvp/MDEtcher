@@ -122,6 +122,12 @@
                                                             <action selector="exportHTML:" target="Ady-hI-5gd" id="EfM-Tx-Tow"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem title="AIFF" id="C4b-yg-1kR">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="exportAiff:" target="Ady-hI-5gd" id="Eqc-xw-Jak"/>
+                                                        </connections>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                         </menuItem>
@@ -363,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                            <font key="NSFont" metaFont="message" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
