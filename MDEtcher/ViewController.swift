@@ -90,7 +90,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   }
   
   private func setupCssSeletor()
-  {
+  {    
     if let rsc = Bundle.main.resourceURL,
        let cssfiles = FS.contentsOfDirectory("\(rsc.path)/pandoc/css")
     {
@@ -205,6 +205,16 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     {
       editorView.toggleAutomaticQuoteSubstitution(self)
     }
+    
+    if let d = FS.applicationSupportPath(forName: "MDEtcher",
+                                         andResourceName: "previewCSS")
+    {
+      NSLog(d)
+    }
+    else
+    {
+      NSLog("did not have it")
+    }
   }
 
   override var representedObject: Any?
@@ -307,6 +317,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
         dump(error)
       }
     }
+    
   }
   
   @IBAction func previewUpdate(_ sender: Any)
@@ -392,6 +403,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   
   @IBAction func exportPDF(_ send: Any)
   {
+    let md = editorView.string
     let savePanel = NSSavePanel()
     savePanel.nameFieldStringValue = "\(self.view.window!.title).pdf"
     savePanel.allowedFileTypes = ["pdf"]
@@ -403,8 +415,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
         guard let url = savePanel.url else {return}
         DispatchQueue.global(qos: .background).async
         {
-          self.pandoc.write(self.editorView.string,
-                            toPDF: url.path)
+          self.pandoc.write(md, toPDF: url.path)
         }
       }
     }

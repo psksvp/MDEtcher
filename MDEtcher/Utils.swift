@@ -35,40 +35,17 @@ func readDefault(forkey key:String, notFoundReturn:  String) -> String
   }
 }
 
-func htmlString(inWkWebView w: WKWebView) -> String?
-{
-  var htmlString: String? = nil
-  
-  DispatchQueue.global(qos: .background).sync
-  {
-    w.evaluateJavaScript("document.documentElement.outerHTML.toString()")
-    {
-      (data, error) in
-
-      if let d = data,
-        let html = d as? String
-      {
-        htmlString = html
-      }
-      else
-      {
-        Log.warn("Did not copy HTML")
-        dump(error)
-      }
-    }
-  }
-  return htmlString
-}
-
 extension WKWebView
 {
   /// does not work eval JS is async
-  var html: String
+  var html: String?
   {
     get
     {
-      var htmlString = ""
-      
+      var htmlString: String? = nil
+      let sem = DispatchSemaphore(value: 0)
+      // eval JS is async, so need sem to wait for it
+      // aka make it a sync call
       self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
       {
         (data, error) in
@@ -83,7 +60,11 @@ extension WKWebView
           Log.warn("Did not copy HTML")
           dump(error)
         }
+        sem.signal()
       }
+      
+      // wait for sem
+      _ = sem.wait(timeout: .distantFuture)
       return htmlString
     }
   }
@@ -151,3 +132,5 @@ func paragraphAtRange(_ r: NSRange, inTextView tv:NSTextView) -> String?
     return nil
   }
 }
+
+

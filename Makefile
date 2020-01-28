@@ -1,5 +1,5 @@
 commit:
-	git add   *
+	git add  .
 	git add -u
 	git commit -m "$(MSG)"
 
@@ -9,5 +9,5 @@ push:
 	
 
 copyApp:
-
+	cp -R ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app  ~/Applications/.
 	
