@@ -14,6 +14,12 @@ class Pandoc
 {
   private var path:String = ""
   
+  static private let _pandoc = Pandoc()
+  static var shared: Pandoc
+  {
+    get {return _pandoc}
+  }
+  
   var busyImage: NSImage?
   {
     get
@@ -45,6 +51,38 @@ class Pandoc
     }
   }
   
+  @discardableResult public func runWithProgressShowed(_ md: String, _ args: [String]) -> String?
+  {
+    let mdf1 = Markdown.csvBlocks2Tables(md)
+    
+    DispatchQueue.main.async
+    {
+      WorkPrograssWindowController.shared.message = args.joined(separator: " ")
+    }
+    
+    if let (output, err) = OS.spawn(["\(path)/pandoc"] + args, mdf1)
+    {
+      DispatchQueue.main.async
+      {
+        if false == err.isEmpty
+        {
+          Log.warn("pandoc stderr : \(err)")
+          WorkPrograssWindowController.shared.enableDoneButton()
+          WorkPrograssWindowController.shared.message.append(err)
+        }
+        else
+        {
+          WorkPrograssWindowController.shared.hide()
+        }
+      }
+      return output
+    }
+    else
+    {
+      return nil
+    }
+  }
+  
   public func toHTML(markdown: String, css:String) -> String?
   {
     let args = ["--css=\(path)/css/\(css)",
@@ -60,6 +98,12 @@ class Pandoc
   public func toHTML(markdown: String) -> String?
   {
     let args = ["--to=html5", "--mathjax=\(path)/MathJax/MathJax.js"]
+    return run(markdown, args)
+  }
+  
+  public func toText(markdown: String) -> String?
+  {
+    let args = ["--to=html5"]
     return run(markdown, args)
   }
   
@@ -83,7 +127,6 @@ class Pandoc
                 "-V", "linkcolor:blue",
                 "-V", "geometry:a4paper",
                 "-o", pdfOutputPath]
-    
-    run(md, args)
+    runWithProgressShowed(md, args)
   }
 }

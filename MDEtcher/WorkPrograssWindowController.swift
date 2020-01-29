@@ -10,9 +10,22 @@ import Cocoa
 
 class WorkPrograssWindowController: NSWindowController
 {
-  @IBOutlet weak var infoText: NSTextField!
+  @IBOutlet weak var doneButton: NSButton!
+  @IBOutlet weak var busyImage: NSImageView!
+  @IBOutlet var messageTextView: NSTextView!
+  
+  var message: String
+  {
+    get { return messageTextView.string}
+    set
+    {
+      messageTextView.string = newValue
+      messageTextView.scrollLineDown(self)
+    }
+  }
   
   private static var _one:WorkPrograssWindowController? = nil
+  
   static var shared:WorkPrograssWindowController
   {
     get
@@ -37,17 +50,31 @@ class WorkPrograssWindowController: NSWindowController
   override func windowDidLoad()
   {
     super.windowDidLoad()
+    busyImage.image = Pandoc.shared.busyImage
   }
   
   func show(_ title: String)
   {
+    self.window!.level = .mainMenu
     self.window!.title = title
     self.window!.orderFront(self)
+    busyImage.animates = true
   }
   
   func hide()
   {
     self.window!.orderOut(self)
+    doneButton.isEnabled = false
+    busyImage.animates = false
   }
-    
+  
+  func enableDoneButton()
+  {
+    doneButton.isEnabled = true
+  }
+  
+  @IBAction func doneButtonPushed(_ sender: Any)
+  {
+    hide()
+  }
 }

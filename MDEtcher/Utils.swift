@@ -134,3 +134,62 @@ func paragraphAtRange(_ r: NSRange, inTextView tv:NSTextView) -> String?
 }
 
 
+func spawnAndRead(_ args:[String],
+                  _ stringForInputPipe:String?,
+                  outputPipeHandler:((String, String) -> Void)) -> Void
+{
+  if args.isEmpty
+  {
+    return
+  }
+  else
+  {
+    let outputPipe = Pipe()
+    let errorPipe = Pipe()
+    let inputPipe = Pipe()
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: args[0])
+    task.standardOutput = outputPipe
+    task.standardError = errorPipe
+    task.standardInput = inputPipe
+    
+    if(args.count > 1)
+    {
+      task.arguments = Array(args.dropFirst())
+    }
+    
+    do
+    {
+      try task.run()
+      if let inputString = stringForInputPipe
+      {
+        inputPipe.fileHandleForWriting.write(Data(inputString.utf8))
+        inputPipe.fileHandleForWriting.closeFile()
+      }
+      
+
+      var keepReading = true
+      while(keepReading)
+      {
+        let stdOutData = outputPipe.fileHandleForReading.availableData
+        if stdOutData.count == 0  //EOF reached
+        {
+          keepReading = false
+        }
+        else
+        {
+          let stdOut = String(decoding: stdOutData,
+                                    as: UTF8.self)
+          outputPipeHandler(stdOut, "stdErr")
+        }
+      }
+    }
+    catch let error as NSError
+    {
+      Log.error("OS.spawn \(args) fail: \(error.localizedDescription)")
+      return
+    }
+  }
+}
+
+

@@ -237,25 +237,25 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
   {
     DispatchQueue.main.async  // this delegate is called from a thread?, so put on the main thread for GUI stuff
     {
-      if self.writingToFile
+      let s = self.textView.string
+      if let r = s.intIndex(of: string)
       {
-        WorkPrograssWindowController.shared.infoText.stringValue = string
-      }
-      else
-      {
-        let s = self.textView.string
-        if let r = s.intIndex(of: string)
+        let m = NSMakeRange(r + characterRange.location, characterRange.length)
+      
+        if s.isRangeInBound(m)
         {
-          let m = NSMakeRange(r + characterRange.location, characterRange.length)
-        
-          if s.isRangeInBound(m)
+          if self.writingToFile
           {
-            self.textView.setSelectedRange(m)
+            WorkPrograssWindowController.shared.message.append("\(String(s.substring(with: characterRange)!)) ")
           }
           else
           {
-            Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
+            self.textView.setSelectedRange(m)
           }
+        }
+        else
+        {
+          Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
         }
       }
     }
@@ -291,6 +291,12 @@ extension String
   {
     guard let _ = Range(range, in: self) else {return false}
     return true
+  }
+  
+  func substring(with nsrange: NSRange) -> Substring?
+  {
+    guard let range = Range(nsrange, in: self) else { return nil }
+    return self[range]
   }
 }
 

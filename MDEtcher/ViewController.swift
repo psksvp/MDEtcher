@@ -413,6 +413,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
       if respond == NSApplication.ModalResponse.OK
       {
         guard let url = savePanel.url else {return}
+        WorkPrograssWindowController.shared.show("Exporting: \(url.path)")
         DispatchQueue.global(qos: .background).async
         {
           self.pandoc.write(md, toPDF: url.path)
