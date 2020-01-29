@@ -12,7 +12,7 @@ import WebKit
 import CommonSwift
 
 
-class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
+class ViewController: NSViewController, WKNavigationDelegate
 {
   @IBOutlet weak var mainView: NSSplitView!
   @IBOutlet weak var editorView: MarkDownEditorView!
@@ -26,67 +26,11 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   @IBOutlet weak var outlineSelector: NSPopUpButton!
   
   private var previewCssMenu:NSMenu? = nil
-  //private var editorThemeMenu:NSMenu? = nil
-  
-  //private let textStorage = CodeAttributedString()
+
   private let pandoc = Pandoc()
   private var updatingPreview = false
   private var visibleTop:CGFloat = 0.0
 
-
-//  private func setupEditor()
-//  {
-//    textStorage.language = "Markdown"
-//
-//    if let lm = editorView.layoutManager
-//    {
-//      textStorage.addLayoutManager(lm)
-//      lm.replaceTextStorage(textStorage)
-//
-//      editorView.delegate = self
-//      editorView.autoresizingMask = [.width,.height]
-//      editorView.translatesAutoresizingMaskIntoConstraints = true
-//
-//
-//      editorThemeMenu?.removeAllItems()
-//      for t in textStorage.highlightr.availableThemes()
-//      {
-//        let i = NSMenuItem(title: t, action: #selector(editorThemeSelect), keyEquivalent: "")
-//        editorThemeMenu?.addItem(i)
-//      }
-//
-//      setupTheme()
-//    }
-//    else
-//    {
-//      Log.error("editorView had no layoutManager")
-//    }
-//  }
-//
-//  private func setupTheme()
-//  {
-//    let themeName = readDefault(forkey: "editorTheme",
-//                                notFoundReturn: "default")
-//
-//    Log.info("setting editor theme to \(themeName)")
-//    putCheckmark(title: themeName, inMenu: editorThemeMenu!)
-//    textStorage.highlightr.setTheme(to: themeName)
-//
-//    //Make sure the cursor won't be invisible
-//    let bgColor = textStorage.highlightr.theme.themeBackgroundColor.usingColorSpace(NSColorSpace.deviceRGB)!
-//    editorView.backgroundColor = bgColor
-//    editorView.insertionPointColor = NSColor(red: 1.0 - bgColor.redComponent,
-//                                             green: 1.0 - bgColor.greenComponent,
-//                                             blue: 1.0 - bgColor.blueComponent,
-//                                             alpha: 1.0)
-//
-//    Log.info("editor background color is set to \(editorView.backgroundColor)")
-//    Log.info("editor cursor color is set to \(editorView.insertionPointColor)")
-//
-//    textStorage.highlightr.theme.codeFont = NSFont(name: "PT Mono", size: 16)
-//    textStorage.highlightr.theme.boldCodeFont = NSFont(name: "PT Mono", size: 16)
-//    textStorage.highlightr.theme.italicCodeFont = NSFont(name: "PT Mono", size: 16)
-//  }
   
   private func setupCssSeletor()
   {    
@@ -112,33 +56,6 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
       putCheckmark(title: cssName, inMenu: previewCssMenu!)
     }
   }
-  
-  ////////////////////////////////////
-  func updateOutline(md: String)
-  {
-    DispatchQueue.global(qos: .background).async
-    {
-       if let ol = Markdown.herderOutline(md)
-       {
-         DispatchQueue.main.async
-         {
-           let selectedTitle = self.outlineSelector.selectedItem?.title
-           
-           self.outlineSelector.removeAllItems()
-           self.outlineSelector.addItems(withTitles: ol)
-          
-           if let title = selectedTitle
-           {
-             self.outlineSelector.selectItem(withTitle: title)
-           }
-         }
-       }
-       else
-       {
-         Log.info("updating outline did not update, because outline is empty")
-       }
-    }
-  }
 
   ////////////////////////////////
   /// NSViewController
@@ -147,8 +64,8 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
   {
     super.viewDidLoad()
     
-    editorView.viewController = self
-    editorView.setupSyntaxHighlighter()
+    editorView.VC = self
+    editorView.setup()
     
     if let previewMenu = NSApplication.shared.mainMenu?.item(withTitle: "Preview"),
        let previewSubMenu = previewMenu.submenu,
@@ -162,25 +79,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     }
     
     
-//    if let editorMenu = NSApplication.shared.mainMenu?.item(withTitle: "Editor"),
-//       let themeSubMenu = editorMenu.submenu,
-//       let themeListMenu = themeSubMenu.item(withTitle: "Theme")?.submenu
-//    {
-//      editorThemeMenu = themeListMenu
-//    }
-//    else
-//    {
-//      Log.error("Fail to get reference of Editor->Theme menu")
-//    }
-    
-    ////////
-    //setupEditor()
     setupCssSeletor()
-    self.outlineSelector.removeAllItems()
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(outlineWillOpen),
-                                           name: NSPopUpButton.willPopUpNotification,
-                                           object: nil)
     
     webView.navigationDelegate = self
     
@@ -200,21 +99,6 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     // init clipview top Y pos to detect scroll up or down
     visibleTop = editorClipView.bounds.minY
     
-    //turn off stupid substitution
-    if editorView.isAutomaticQuoteSubstitutionEnabled
-    {
-      editorView.toggleAutomaticQuoteSubstitution(self)
-    }
-    
-    if let d = FS.applicationSupportPath(forName: "MDEtcher",
-                                         andResourceName: "previewCSS")
-    {
-      NSLog(d)
-    }
-    else
-    {
-      NSLog("did not have it")
-    }
   }
 
   override var representedObject: Any?
@@ -225,11 +109,7 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     }
   }
   
-  ////////////////
-  @objc func outlineWillOpen(_ sender: Any)
-  {
-    updateOutline(md: editorView.string)
-  }
+ 
   
   ////////////////
   @objc func cssPreviewStyleMenuSelected(_ sender: NSMenuItem)
@@ -240,13 +120,6 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
     cssPreviewSelected(self)
   }
   
-//  @objc func editorThemeSelect(_ sender: NSMenuItem)
-//  {
-//    UserDefaults.standard.set(sender.title, forKey: "editorTheme")
-//    putCheckmark(item: sender, inMenu: editorThemeMenu!)
-//    setupTheme()
-//    Log.info("updating editor theme to \(sender.title)")
-//  }
   
   // WkWebView didFinish
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
@@ -258,11 +131,6 @@ class ViewController: NSViewController, NSTextViewDelegate, WKNavigationDelegate
 //    }
   }
   
-  //NSTextView
-  func textDidChange(_ notification: Notification)
-  {
-    //NSLog("------Text did change")
-  }
   
   //////////////////////////////////////
   // UI action

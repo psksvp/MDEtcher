@@ -39,7 +39,6 @@ class Document: NSDocument
       {
         tv.string = textReadBuffer
         textView = tv
-        viewController.updateOutline(md: textReadBuffer)
       }
       else
       {
@@ -54,7 +53,6 @@ class Document: NSDocument
 
   override func data(ofType typeName: String) throws -> Data
   {
-    viewController.updateOutline(md: textView.string)
     switch textView.string.data(using: .utf8)
     {
       case .some(let d) : return d

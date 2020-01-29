@@ -40,13 +40,13 @@ extension NSTextView
 /////////////////////////////////////////////////////
 class MarkDownEditorView: NSTextView, NSTextViewDelegate
 {
-  var viewController: ViewController!
-  
   private let highlightedCS = CodeAttributedString()
   private var editorThemeMenu:NSMenu? = nil
   private let speechSyn: NSSpeechSynthesizer = NSSpeechSynthesizer(voice: nil)!
-  
   private var _proofReader: TextViewProofReader? = nil
+  
+  var VC: ViewController!
+  
   var proofReader: TextViewProofReader
   {
     get
@@ -68,7 +68,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   {
     super.mouseDown(with: event)
     proofReader.stop() // if it is running
-    viewController.syncWithEditor(self)
+    VC.syncWithEditor(self)
   }
   
   override func scrollWheel(with event: NSEvent)
@@ -88,13 +88,32 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     self.setSelectedRange(r)
 
     //sync with preview if user prefer
-    viewController.syncWithEditor(self)
+    VC.syncWithEditor(self)
 
     // move cursor back
     self.setSelectedRange(cursorPos)
   }
   
+  func setup()
+  {
+    setupSyntaxHighlighter()
+    setupOutline()
+  }
   
+  
+  func setupOutline()
+  {
+    VC.outlineSelector.removeAllItems()
+    VC.outlineSelector.addItem(withTitle: "Outline")
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(updateOutline),
+                                           name: NSPopUpButton.willPopUpNotification,
+                                           object: nil)
+    
+    updateOutline(self)
+  }
+  
+
   func setupSyntaxHighlighter()
   {
     highlightedCS.language = "Markdown"
@@ -136,6 +155,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     }
   }
   
+  
   func refreshTheme()
   {
     let themeName = readDefault(forkey: "editorTheme",
@@ -174,7 +194,34 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     refreshTheme()
     Log.info("updating editor theme to \(sender.title)")
   }
-}
+  
+  @objc func updateOutline(_ sender: Any)
+  {
+    let md = self.string
+    DispatchQueue.global(qos: .background).async
+    {
+       if let ol = Markdown.herderOutline(md)
+       {
+         DispatchQueue.main.async
+         {
+           let selectedTitle = self.VC.outlineSelector.selectedItem?.title
+           
+           self.VC.outlineSelector.removeAllItems()
+           self.VC.outlineSelector.addItems(withTitles: ol)
+          
+           if let title = selectedTitle
+           {
+             self.VC.outlineSelector.selectItem(withTitle: title)
+           }
+         }
+       }
+       else
+       {
+         Log.info("updating outline did not update, because outline is empty")
+       }
+    }
+  }
+}// MarkDownEditorView
 
 
 
