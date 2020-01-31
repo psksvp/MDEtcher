@@ -50,7 +50,7 @@ class WorkPrograssWindowController: NSWindowController
   override func windowDidLoad()
   {
     super.windowDidLoad()
-    busyImage.image = Pandoc.shared.busyImage
+    busyImage.image = Resource.busyAnimation
   }
   
   func show(_ title: String)

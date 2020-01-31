@@ -369,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="message" size="11"/>
+                                            <font key="NSFont" metaFont="label" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -389,7 +389,7 @@
                                         </menuItem>
                                         <menuItem title="Sync With Editor" keyEquivalent="i" id="yOA-NO-jiV">
                                             <connections>
-                                                <action selector="syncWithEditor:" target="Ady-hI-5gd" id="8ST-40-k4x"/>
+                                                <action selector="syncPreviewWithEditor:" target="Ady-hI-5gd" id="8ST-40-k4x"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Style" id="vUP-Hr-88E">

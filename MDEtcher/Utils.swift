@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 import AppKit
-import WebKit
+
 import CommonSwift
 
 
@@ -35,161 +35,10 @@ func readDefault(forkey key:String, notFoundReturn:  String) -> String
   }
 }
 
-extension WKWebView
-{
-  /// does not work eval JS is async
-  var html: String?
-  {
-    get
-    {
-      var htmlString: String? = nil
-      let sem = DispatchSemaphore(value: 0)
-      // eval JS is async, so need sem to wait for it
-      // aka make it a sync call
-      self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
-      {
-        (data, error) in
-
-        if let d = data,
-           let html = d as? String
-        {
-          htmlString = html
-        }
-        else
-        {
-          Log.warn("Did not copy HTML")
-          dump(error)
-        }
-        sem.signal()
-      }
-      
-      // wait for sem
-      _ = sem.wait(timeout: .distantFuture)
-      return htmlString
-    }
-  }
-  
-  func scrollToAnchor(_ s:String) -> Void
-  {
-    let anchor = "\"#\(s.lowercased().trim().replacingOccurrences(of: " ", with: "-"))\""
-    let js = "location.hash = \(anchor);"
-    //Log.info("about to eval javascript \(js)")
-    self.evaluateJavaScript(js)
-    {
-      (sender, error) in
-      dump(error)
-    }
-  }
-  
-  func scrollToParagrah(withSubString s: String, searchReverse: Bool = false) -> Void
-  {
-    let loopHead = searchReverse ? "for(var i = x.length - 1; i >= 0; i--)" :
-                                   "for(var i = 0; i < x.length; i++)"
-    let js = """
-    var bgColor = document.body.style.backgroundColor;
-    var x = document.querySelectorAll("p, q, li, h1, h2, h3");
-    \(loopHead)
-    {
-      if(x[i].textContent.indexOf(\(s)) >= 0)
-      {
-        x[i].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
-        x[i].style.backgroundColor = "Azure";
-        break;
-      }
-      else
-      {
-        x[i].style.backgroundColor = bgColor;
-      }
-    }
-    """
-    //Log.info("about to eval javascript\n\(js)")
-    self.evaluateJavaScript(js)
-    {
-      (sender, error) in
-      dump(error)
-    }
-  }
-}
 
 
-func paragraphAtCursorIn(textView tv:NSTextView) -> String?
-{  
-  return paragraphAtRange(tv.selectedRange(), inTextView: tv)
-}
-
-func paragraphAtRange(_ r: NSRange, inTextView tv:NSTextView) -> String?
-{
-  guard let textStorage = tv.textStorage else {return nil}
-  let text = textStorage.string
-  guard let f = Range(r, in: text) else {return nil}
-  let pr = text.paragraphRange(for: f)
-  if tv.string[pr].trim().count > 0
-  {
-    return String(tv.string[pr]).trim()
-  }
-  else
-  {
-    return nil
-  }
-}
 
 
-func spawnAndRead(_ args:[String],
-                  _ stringForInputPipe:String?,
-                  outputPipeHandler:((String, String) -> Void)) -> Void
-{
-  if args.isEmpty
-  {
-    return
-  }
-  else
-  {
-    let outputPipe = Pipe()
-    let errorPipe = Pipe()
-    let inputPipe = Pipe()
-    let task = Process()
-    task.executableURL = URL(fileURLWithPath: args[0])
-    task.standardOutput = outputPipe
-    task.standardError = errorPipe
-    task.standardInput = inputPipe
-    
-    if(args.count > 1)
-    {
-      task.arguments = Array(args.dropFirst())
-    }
-    
-    do
-    {
-      try task.run()
-      if let inputString = stringForInputPipe
-      {
-        inputPipe.fileHandleForWriting.write(Data(inputString.utf8))
-        inputPipe.fileHandleForWriting.closeFile()
-      }
-      
 
-      var keepReading = true
-      while(keepReading)
-      {
-        let stdOutData = outputPipe.fileHandleForReading.availableData
-        if stdOutData.count == 0  //EOF reached
-        {
-          keepReading = false
-        }
-        else
-        {
-          let stdOut = String(decoding: stdOutData,
-                                    as: UTF8.self)
-          outputPipeHandler(stdOut, "stdErr")
-        }
-      }
-    }
-    catch let error as NSError
-    {
-      Log.error("OS.spawn \(args) fail: \(error.localizedDescription)")
-      return
-    }
-  }
-}
 
 

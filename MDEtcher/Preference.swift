@@ -78,5 +78,7 @@ struct Preference
   }
   
   static var editorTheme: String = ""
+  
+  
   static var previewCSS: String = ""
 }

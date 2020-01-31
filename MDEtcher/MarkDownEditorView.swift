@@ -68,7 +68,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   {
     super.mouseDown(with: event)
     proofReader.stop() // if it is running
-    VC.syncWithEditor(self)
+    VC.syncPreviewWithEditor(self)
   }
   
   override func scrollWheel(with event: NSEvent)
@@ -88,7 +88,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     self.setSelectedRange(r)
 
     //sync with preview if user prefer
-    VC.syncWithEditor(self)
+    VC.syncPreviewWithEditor(self)
 
     // move cursor back
     self.setSelectedRange(cursorPos)

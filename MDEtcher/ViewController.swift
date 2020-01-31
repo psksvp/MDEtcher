@@ -20,42 +20,12 @@ class ViewController: NSViewController, WKNavigationDelegate
   @IBOutlet weak var busyView: NSImageView!
   
   @IBOutlet weak var editorClipView: NSClipView!
-  
-
   @IBOutlet weak var cssSelector: NSComboBox!
   @IBOutlet weak var outlineSelector: NSPopUpButton!
-  
-  private var previewCssMenu:NSMenu? = nil
 
-  private let pandoc = Pandoc()
-  private var updatingPreview = false
   private var visibleTop:CGFloat = 0.0
-
+  private var previewManager: PreviewManager!
   
-  private func setupCssSeletor()
-  {    
-    if let rsc = Bundle.main.resourceURL,
-       let cssfiles = FS.contentsOfDirectory("\(rsc.path)/pandoc/css")
-    {
-      cssSelector.removeAllItems()
-      cssSelector.addItems(withObjectValues: cssfiles)
-      
-      previewCssMenu?.removeAllItems()
-      for css in cssfiles
-      {
-        let menuItem = NSMenuItem(title: css,
-                                  action: #selector(cssPreviewStyleMenuSelected),
-                                  keyEquivalent: "")
-        previewCssMenu?.addItem(menuItem)
-      }
-      
-      let cssName = readDefault(forkey: "previewCss",
-                                notFoundReturn: "style.epub.css")
-            
-      cssSelector.selectItem(withObjectValue: cssName)
-      putCheckmark(title: cssName, inMenu: previewCssMenu!)
-    }
-  }
 
   ////////////////////////////////
   /// NSViewController
@@ -67,33 +37,14 @@ class ViewController: NSViewController, WKNavigationDelegate
     editorView.VC = self
     editorView.setup()
     
-    if let previewMenu = NSApplication.shared.mainMenu?.item(withTitle: "Preview"),
-       let previewSubMenu = previewMenu.submenu,
-       let previewStyleMenu = previewSubMenu.item(withTitle: "Style")?.submenu
-    {
-      previewCssMenu = previewStyleMenu
-    }
-    else
-    {
-      Log.error("Fail to get reference of Preview->Style menu")
-    }
-    
-    
-    setupCssSeletor()
+    previewManager = PreviewManager(self)
     
     webView.navigationDelegate = self
     
-    if let busyImage = pandoc.busyImage
-    {
-      busyView.image = busyImage
-    }
-    else
-    {
-      Log.error("busy Image is missing")
-    }
-    
+    busyView.image = Resource.busyAnimation
     
     // get menu to update accordingly
+    // funcking confusing, TODO: Refactor
     Preference.scrollPreview = Preference.scrollPreview
     
     // init clipview top Y pos to detect scroll up or down
@@ -109,22 +60,11 @@ class ViewController: NSViewController, WKNavigationDelegate
     }
   }
   
- 
-  
-  ////////////////
-  @objc func cssPreviewStyleMenuSelected(_ sender: NSMenuItem)
-  {
-    Log.info("\(sender.title) Selected")
-    cssSelector.selectItem(withObjectValue: sender.title)
-    putCheckmark(item: sender, inMenu: previewCssMenu!)
-    cssPreviewSelected(self)
-  }
-  
-  
   // WkWebView didFinish
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
   {
-    self.syncWithEditor(self)
+    self.syncPreviewWithEditor(self)
+    // SHOULD DO? : if the above stmt fail, do below
 //    if let selectedTitleInOutline = self.outlineSelector.selectedItem
 //    {
 //      self.webView.scrollToAnchor(selectedTitleInOutline.title)
@@ -190,42 +130,7 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func previewUpdate(_ sender: Any)
   {
-    if updatingPreview
-    {
-      Log.info("preview updating is running. Do nothing")
-      return
-    }
-    
-    let md = editorView.string
-    if md.isEmpty
-    {
-      Log.warn("Editor is empty. Preview is ignored")
-      return
-    }
-    
-    updatingPreview = true
-    busyView.animates = true
-    
-    
-    let cssName = readDefault(forkey: "previewCss",
-                              notFoundReturn: "style.epub.css")
-    
-    DispatchQueue.global(qos: .background).async
-    {
-      if let html = self.pandoc.toHTML(markdown: md, css: cssName)
-      {
-        DispatchQueue.main.async
-        {
-          self.webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
-          self.busyView.animates = false
-          self.updatingPreview = false
-        }
-      }
-      else
-      {
-        Log.error("Preview Fail")
-      }
-    }
+    previewManager.updatePreview(md: editorView.string)
   }
   
   @IBAction func editorFont(_ sender: Any)
@@ -233,7 +138,7 @@ class ViewController: NSViewController, WKNavigationDelegate
     NSFontManager.shared.orderFrontFontPanel(self)
   }
   
-  @IBAction func syncWithEditor(_ sender: Any)
+  @IBAction func syncPreviewWithEditor(_ sender: Any)
   {
     func clean(_ s: String, _ lengthThreshold: Int = 50) -> String
     {
@@ -260,7 +165,7 @@ class ViewController: NSViewController, WKNavigationDelegate
       return
     }
     
-    if let paragraph = paragraphAtCursorIn(textView: editorView)
+    if let paragraph = editorView.textBlockAtCursor() 
     {
       webView.scrollToParagrah(withSubString: clean(paragraph),
                                searchReverse: editorClipView.bounds.minY < visibleTop)
@@ -284,7 +189,7 @@ class ViewController: NSViewController, WKNavigationDelegate
         WorkPrograssWindowController.shared.show("Exporting: \(url.path)")
         DispatchQueue.global(qos: .background).async
         {
-          self.pandoc.write(md, toPDF: url.path)
+          Pandoc.write(md, toPDF: url.path)
         }
       }
     }
@@ -328,7 +233,7 @@ class ViewController: NSViewController, WKNavigationDelegate
         guard let url = savePanel.url else {return}
         DispatchQueue.global(qos: .background).async
         {
-          self.pandoc.write(md, toHTMLFileAtPath: url.path,
+          Pandoc.write(md, toHTMLFileAtPath: url.path,
                                 usingCSS: cssName)
         }
       }

@@ -12,35 +12,11 @@ import CommonSwift
 
 class Pandoc
 {
-  private var path:String = ""
-  
-  static private let _pandoc = Pandoc()
-  static var shared: Pandoc
-  {
-    get {return _pandoc}
-  }
-  
-  var busyImage: NSImage?
-  {
-    get
-    {
-      return NSImage(contentsOfFile: "\(path)/busy.gif")
-    }
-  }
-  
-  public init()
-  {
-    if let rsc = Bundle.main.resourceURL
-    {
-      path = "\(rsc.path)/pandoc"
-    }
-  }
-  
-  @discardableResult public func run(_ md: String, _ args: [String]) -> String?
+  @discardableResult class func run(_ md: String, _ args: [String]) -> String?
   {
     let mdf1 = Markdown.csvBlocks2Tables(md)
     
-    if let (output, err) = OS.spawn(["\(path)/pandoc"] + args, mdf1)
+    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, mdf1)
     {
       Log.warn("pandoc stderr : \(err)")
       return output
@@ -51,7 +27,7 @@ class Pandoc
     }
   }
   
-  @discardableResult public func runWithProgressShowed(_ md: String, _ args: [String]) -> String?
+  @discardableResult class func runWithProgressShowed(_ md: String, _ args: [String]) -> String?
   {
     let mdf1 = Markdown.csvBlocks2Tables(md)
     
@@ -60,7 +36,7 @@ class Pandoc
       WorkPrograssWindowController.shared.message = args.joined(separator: " ")
     }
     
-    if let (output, err) = OS.spawn(["\(path)/pandoc"] + args, mdf1)
+    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, mdf1)
     {
       DispatchQueue.main.async
       {
@@ -83,31 +59,37 @@ class Pandoc
     }
   }
   
-  public func toHTML(markdown: String, css:String) -> String?
+  class func toHTML(markdown: String, css cssName:String) -> String?
   {
-    let args = ["--css=\(path)/css/\(css)",
+    guard let cssPath = Resource.css(cssName) else
+    {
+      Log.error("\(cssName) cannot be found")
+      return nil
+    }
+    
+    let args = ["--css=\(cssPath)",
                 "--to=html5",
                 "--self-contained",
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
-                "--mathjax=\(path)/MathJax/MathJax.js"]
+                "--mathjax=\(Resource.mathJax)"]
     
     return run(markdown, args)
   }
   
-  public func toHTML(markdown: String) -> String?
+  class func toHTML(markdown: String) -> String?
   {
-    let args = ["--to=html5", "--mathjax=\(path)/MathJax/MathJax.js"]
+    let args = ["--to=html5", "--mathjax=\(Resource.mathJax)"]
     return run(markdown, args)
   }
   
-  public func toText(markdown: String) -> String?
+  class func toText(markdown: String) -> String?
   {
     let args = ["--to=html5"]
     return run(markdown, args)
   }
   
-  public func write(_ md: String, toHTMLFileAtPath path:String, usingCSS css: String) -> Void
+  class func write(_ md: String, toHTMLFileAtPath path:String, usingCSS css: String) -> Void
   {
     if let html = self.toHTML(markdown: md, css: css)
     {
@@ -119,7 +101,7 @@ class Pandoc
     }
   }
   
-  public func write(_ md: String, toPDF pdfOutputPath: String) -> Void
+  class func write(_ md: String, toPDF pdfOutputPath: String) -> Void
   {
     let args = ["--top-level-division=chapter",
                 "--toc",
