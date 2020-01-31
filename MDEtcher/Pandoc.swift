@@ -73,8 +73,10 @@ class Pandoc
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
                 "--mathjax=\(Resource.mathJax)"]
-    
-    return run(markdown, args)
+  
+    guard let htmlString = run(markdown, args) else {return nil}
+    let brs = String(repeating: "<br>", count: 30)
+    return htmlString.replacingOccurrences(of: "</body>\n</html>", with: "\(brs)</body></html>")
   }
   
   class func toHTML(markdown: String) -> String?
