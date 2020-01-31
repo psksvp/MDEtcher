@@ -64,7 +64,7 @@ class Resource
     {
       return p1
     }
-    else if FileManager.default.fileExists(atPath: p1)
+    else if FileManager.default.fileExists(atPath: p2)
     {
       return p2
     }

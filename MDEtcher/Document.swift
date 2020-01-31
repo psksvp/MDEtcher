@@ -11,7 +11,7 @@ import CommonSwift
 
 class Document: NSDocument 
 {
-  private var textView: NSTextView!
+  private var textView: MarkDownEditorView!
   private var viewController: ViewController!
   private var textReadBuffer = ""
   
@@ -39,6 +39,7 @@ class Document: NSDocument
       {
         tv.string = textReadBuffer
         textView = tv
+        tv.updateOutline(self)
       }
       else
       {
@@ -53,6 +54,7 @@ class Document: NSDocument
 
   override func data(ofType typeName: String) throws -> Data
   {
+    textView.updateOutline(self)
     switch textView.string.data(using: .utf8)
     {
       case .some(let d) : return d

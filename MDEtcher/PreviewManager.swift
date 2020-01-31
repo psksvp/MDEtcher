@@ -130,12 +130,9 @@ class PreviewManager : NSObject
                                 keyEquivalent: "")
       previewCssMenu?.addItem(menuItem)
     }
-    
-    let cssName = readDefault(forkey: "previewCss",
-                              notFoundReturn: "style.epub.css")
-          
-    vc.cssSelector.selectItem(withObjectValue: cssName)
-    putCheckmark(title: cssName, inMenu: previewCssMenu!)
+       
+    vc.cssSelector.selectItem(withObjectValue: Preference.previewCSS)
+    putCheckmark(title: Preference.previewCSS, inMenu: previewCssMenu!)
     
   }
   
@@ -156,7 +153,7 @@ class PreviewManager : NSObject
       return
     }
     
-    guard !md.isEmpty  else
+    guard !md.isEmpty else
     {
       Log.warn("Editor is empty. Preview is ignored")
       return
@@ -186,4 +183,71 @@ class PreviewManager : NSObject
       }
     }
   }
+  
+  func syncWithEditor(atParagraph paragraph: String, searchReverse sr: Bool)
+  {
+    func clean(_ s: String, _ lengthThreshold: Int = 50) -> String
+    {
+      func chop() -> String
+      {
+        if s.count <= lengthThreshold
+        {
+          return s
+        }
+        else
+        {
+          let i = s.index(s.startIndex, offsetBy: 0)
+          let j = s.index(s.startIndex, offsetBy: lengthThreshold)
+          return String(s[i...j])
+        }
+      }
+      
+      let r = chop().replacingOccurrences(of: "\'", with: "\\\'").filter {!"*#_-".contains($0)}
+      return r.trim().javaScriptEscapedString()
+    }
+    
+    VC.webView.scrollToParagrah(withSubString: clean(paragraph),
+                             searchReverse: sr)
+  }
+  
 }
+
+
+/*
+class WebPrinter: NSObject, WebFrameLoadDelegate {
+
+    let window: NSWindow
+    var printView: WebView?
+    let printInfo = NSPrintInfo.shared
+
+    init(window: NSWindow) {
+        self.window = window
+        printInfo.topMargin = 30
+        printInfo.bottomMargin = 15
+        printInfo.rightMargin = 0
+        printInfo.leftMargin = 0
+    }
+
+    func printHtml(_ html: String) {
+        let printViewFrame = NSMakeRect(0, 0, printInfo.paperSize.width, printInfo.paperSize.height)
+        printView = WebView(frame: printViewFrame, frameName: "printFrame", groupName: "printGroup")
+        printView!.shouldUpdateWhileOffscreen = true
+        printView!.frameLoadDelegate = self
+        printView!.mainFrame.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+    }
+
+    func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
+        if sender.isLoading {
+            return
+        }
+        if frame != sender.mainFrame {
+            return
+        }
+        if sender.stringByEvaluatingJavaScript(from: "document.readyState") == "complete" {
+            sender.frameLoadDelegate = nil
+            let printOperation = NSPrintOperation(view: frame.frameView.documentView, printInfo: printInfo)
+            printOperation.runModal(for: window, delegate: window, didRun: nil, contextInfo: nil)
+        }
+    }
+}
+*/

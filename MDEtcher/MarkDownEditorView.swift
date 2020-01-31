@@ -45,7 +45,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   private let speechSyn: NSSpeechSynthesizer = NSSpeechSynthesizer(voice: nil)!
   private var _proofReader: TextViewProofReader? = nil
   
-  var VC: ViewController!
+  private var VC: ViewController!
   
   var proofReader: TextViewProofReader
   {
@@ -94,8 +94,9 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     self.setSelectedRange(cursorPos)
   }
   
-  func setup()
+  func setup(_ vc: ViewController)
   {
+    VC = vc
     setupSyntaxHighlighter()
     setupOutline()
   }
@@ -158,8 +159,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   func refreshTheme()
   {
-    let themeName = readDefault(forkey: "editorTheme",
-                                notFoundReturn: "default")
+    let themeName = Preference.editorTheme
     
     Log.info("setting editor theme to \(themeName)")
     putCheckmark(title: themeName, inMenu: editorThemeMenu!)
@@ -189,7 +189,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   @objc func editorThemeSelected(_ sender: NSMenuItem)
   {
-    UserDefaults.standard.set(sender.title, forKey: "editorTheme")
+    Preference.editorTheme = sender.title
     putCheckmark(item: sender, inMenu: editorThemeMenu!)
     refreshTheme()
     Log.info("updating editor theme to \(sender.title)")
@@ -212,6 +212,10 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
            if let title = selectedTitle
            {
              self.VC.outlineSelector.selectItem(withTitle: title)
+           }
+           else
+           {
+            self.VC.outlineSelector.selectItem(at: 0)
            }
          }
        }

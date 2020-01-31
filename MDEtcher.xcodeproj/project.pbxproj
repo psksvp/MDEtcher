@@ -18,7 +18,7 @@
 		2334449923CF10E2009FDA8F /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334449823CF10E2009FDA8F /* CSVReader.swift */; };
 		233DD31223C491E700E3D1E6 /* pandoc in Resources */ = {isa = PBXBuildFile; fileRef = 233DD31123C491E700E3D1E6 /* pandoc */; };
 		233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */; };
-		2342EF1A23DBC87F00442E07 /* TextViewProofReaderAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */; };
+		2342EF1A23DBC87F00442E07 /* TextViewProofReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2342EF1923DBC87F00442E07 /* TextViewProofReader.swift */; };
 		2342EF1F23DC0B2D00442E07 /* VoicesSelectorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */; };
 		2342EF2023DC0B2D00442E07 /* VoicesSelectorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */; };
 		2352C55B23C3FED3009E0BB2 /* CommonSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2352C55A23C3FED3009E0BB2 /* CommonSwift */; };
@@ -48,7 +48,7 @@
 		2334449823CF10E2009FDA8F /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
 		233DD31123C491E700E3D1E6 /* pandoc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pandoc; sourceTree = "<group>"; };
 		233DD31E23C6D81B00E3D1E6 /* MarkDownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDownEditorView.swift; sourceTree = "<group>"; };
-		2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewProofReaderAV.swift; sourceTree = "<group>"; };
+		2342EF1923DBC87F00442E07 /* TextViewProofReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewProofReader.swift; sourceTree = "<group>"; };
 		2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicesSelectorWindowController.swift; sourceTree = "<group>"; };
 		2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoicesSelectorWindowController.xib; sourceTree = "<group>"; };
 		2352C55E23C44B07009E0BB2 /* Pandoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pandoc.swift; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 				23B3AF2423CC8B7A0038F8A2 /* Utils.swift */,
 				2334449823CF10E2009FDA8F /* CSVReader.swift */,
 				23E7D24D23D84E6C00285FF6 /* Preference.swift */,
-				2342EF1923DBC87F00442E07 /* TextViewProofReaderAV.swift */,
+				2342EF1923DBC87F00442E07 /* TextViewProofReader.swift */,
 				2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */,
 				2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */,
 				232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */,
@@ -235,7 +235,7 @@
 				23B3AF2523CC8B7A0038F8A2 /* Utils.swift in Sources */,
 				231B180223CA00F70079506C /* Markdown.swift in Sources */,
 				23E7D24E23D84E6C00285FF6 /* Preference.swift in Sources */,
-				2342EF1A23DBC87F00442E07 /* TextViewProofReaderAV.swift in Sources */,
+				2342EF1A23DBC87F00442E07 /* TextViewProofReader.swift in Sources */,
 				232CE39323E04FE00048EFA4 /* WorkPrograssWindowController.swift in Sources */,
 				233DD31F23C6D81B00E3D1E6 /* MarkDownEditorView.swift in Sources */,
 				2342EF1F23DC0B2D00442E07 /* VoicesSelectorWindowController.swift in Sources */,

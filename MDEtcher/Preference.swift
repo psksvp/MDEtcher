@@ -77,8 +77,31 @@ struct Preference
     }
   }
   
-  static var editorTheme: String = ""
+  static var editorTheme: String
+  {
+    get
+    {
+      return readDefault(forkey: "editorTheme",
+                 notFoundReturn: "default")
+    }
+    
+    set
+    {
+      UserDefaults.standard.set(newValue, forKey: "editorTheme")
+    }
+  }
   
   
-  static var previewCSS: String = ""
+  static var previewCSS: String 
+  {
+    get
+    {
+      return readDefault(forkey: "previewCss", notFoundReturn: "style.epub.css")
+    }
+    
+    set
+    {
+      UserDefaults.standard.set(newValue, forKey: "previewCss")
+    }
+  }
 }
