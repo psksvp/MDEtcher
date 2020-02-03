@@ -176,14 +176,34 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     Log.info("editor background color is set to \(self.backgroundColor)")
     Log.info("editor cursor color is set to \(self.insertionPointColor)")
     
-    highlightedCS.highlightr.theme.codeFont = NSFont(name: "PT Mono", size: 16)
-    highlightedCS.highlightr.theme.boldCodeFont = NSFont(name: "PT Mono", size: 16)
-    highlightedCS.highlightr.theme.italicCodeFont = NSFont(name: "PT Mono", size: 16)
-    
+    highlightedCS.highlightr.theme.setCodeFont(Preference.editorFont)
+
     //turn off stupid substitution
     if self.isAutomaticQuoteSubstitutionEnabled
     {
       self.toggleAutomaticQuoteSubstitution(self)
+    }
+  }
+  
+  func showFontPanel()
+  {
+    let fm = NSFontManager.shared
+    fm.target = self
+    fm.action = #selector(fontChanged)
+    NSFontManager.shared.setSelectedFont(Preference.editorFont, isMultiple: false)
+    NSFontManager.shared.orderFrontFontPanel(self)
+  }
+  
+  @objc func fontChanged(_ sender: Any)
+  {
+    if let font = NSFontManager.shared.selectedFont
+    {
+      Preference.editorFont = font
+      self.refreshTheme()
+    }
+    else
+    {
+      Log.warn("there is no font selected?")
     }
   }
   

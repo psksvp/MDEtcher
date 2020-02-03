@@ -59,7 +59,9 @@ class Pandoc
     }
   }
   
-  class func toHTML(markdown: String, css cssName:String) -> String?
+  class func toHTML(markdown: String,
+                    css cssName:String,
+                    previewing: Bool = true) -> String?
   {
     guard let cssPath = Resource.css(cssName) else
     {
@@ -74,9 +76,17 @@ class Pandoc
                 "--metadata", "pagetitle=\"MDPreview\"",
                 "--mathjax=\(Resource.mathJax)"]
   
-    guard let htmlString = run(markdown, args) else {return nil}
-    let brs = String(repeating: "<br>", count: 30)
-    return htmlString.replacingOccurrences(of: "</body>\n</html>", with: "\(brs)</body></html>")
+    if previewing
+    {
+      // allow scroll pass end
+      guard let htmlString = run(markdown, args) else {return nil}
+      let brs = String(repeating: "<br>", count: 30)
+      return htmlString.replacingOccurrences(of: "</body>\n</html>", with: "\(brs)</body></html>")
+    }
+    else
+    {
+      return run(markdown, args)
+    }
   }
   
   class func toHTML(markdown: String) -> String?
@@ -93,7 +103,7 @@ class Pandoc
   
   class func write(_ md: String, toHTMLFileAtPath path:String, usingCSS css: String) -> Void
   {
-    if let html = self.toHTML(markdown: md, css: css)
+    if let html = self.toHTML(markdown: md, css: css, previewing: false)
     {
       FS.writeText(inString: html, toPath: path)
     }

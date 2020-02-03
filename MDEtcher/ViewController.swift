@@ -133,7 +133,7 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func editorFont(_ sender: Any)
   {
-    NSFontManager.shared.orderFrontFontPanel(self)
+    self.editorView.showFontPanel()
   }
   
   @IBAction func syncPreviewWithEditor(_ sender: Any)
@@ -153,20 +153,17 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func exportPDF(_ send: Any)
   {
-    let md = editorView.string
-    let savePanel = NSSavePanel()
-    savePanel.nameFieldStringValue = "\(self.view.window!.title).pdf"
-    savePanel.allowedFileTypes = ["pdf"]
-    savePanel.beginSheetModal(for: self.view.window!)
+    exportFile("pdf")
     {
-      respond in
-      if respond == NSApplication.ModalResponse.OK
+      path in
+      let md = self.editorView.string
+      WorkPrograssWindowController.shared.show("Exporting: \(path)")
+      DispatchQueue.global(qos: .background).async
       {
-        guard let url = savePanel.url else {return}
-        WorkPrograssWindowController.shared.show("Exporting: \(url.path)")
-        DispatchQueue.global(qos: .background).async
+        Pandoc.write(md, toPDF: path)
+        DispatchQueue.main.async
         {
-          Pandoc.write(md, toPDF: url.path)
+          WorkPrograssWindowController.shared.hide()
         }
       }
     }
@@ -174,22 +171,16 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func exportAiff(_ send: Any)
   {
-    let savePanel = NSSavePanel()
-    savePanel.nameFieldStringValue = "\(self.view.window!.title).aiff"
-    savePanel.allowedFileTypes = ["aiff"]
-    savePanel.beginSheetModal(for: self.view.window!)
+    exportFile("aiff")
     {
-      respond in
-      if respond == NSApplication.ModalResponse.OK
+      path in
+      WorkPrograssWindowController.shared.show("Exporting: \(path)")
+      self.editorView.proofReader.text = self.editorView.string
+      DispatchQueue.global(qos: .background).async
       {
-        guard let url = savePanel.url else {return}
-        self.editorView.proofReader.text = self.editorView.string
-        WorkPrograssWindowController.shared.show("Exporting \(url.path)")
-        DispatchQueue.global(qos: .background).async
-        {
-          self.editorView.proofReader.start(toURL: url)
-        }
+        self.editorView.proofReader.start(toURL: URL(fileURLWithPath: path))
       }
+      WorkPrograssWindowController.shared.hide()
     }
   }
   
@@ -198,20 +189,17 @@ class ViewController: NSViewController, WKNavigationDelegate
     let cssName = readDefault(forkey: "previewCss",
                               notFoundReturn: "style.epub.css")
     let md = editorView.string
-
-    let savePanel = NSSavePanel()
-    savePanel.nameFieldStringValue = "\(self.view.window!.title).html"
-    savePanel.allowedFileTypes = ["html"]
-    savePanel.beginSheetModal(for: self.view.window!)
+    
+    exportFile("html")
     {
-      respond in
-      if respond == NSApplication.ModalResponse.OK
+      path in
+      DispatchQueue.global(qos: .background).async
       {
-        guard let url = savePanel.url else {return}
-        DispatchQueue.global(qos: .background).async
+        Pandoc.write(md, toHTMLFileAtPath: path,
+                                 usingCSS: cssName)
+        DispatchQueue.main.async
         {
-          Pandoc.write(md, toHTMLFileAtPath: url.path,
-                                usingCSS: cssName)
+          WorkPrograssWindowController.shared.hide()
         }
       }
     }
@@ -241,6 +229,24 @@ class ViewController: NSViewController, WKNavigationDelegate
     {
       mainView.setPosition(mainView.frame.size.width / 2, ofDividerAt: 0)
       sender.title = "Hide Preview"
+    }
+  }
+  
+  func exportFile(_ type: String, exportCode: @escaping (_ path: String) -> Void)
+  {
+    let savePanel = NSSavePanel()
+    savePanel.nameFieldStringValue = "\(self.view.window!.title).\(type)"
+    savePanel.allowedFileTypes = ["\(type)"]
+    savePanel.beginSheetModal(for: self.view.window!)
+    {
+      respond in
+      if respond == NSApplication.ModalResponse.OK
+      {
+        guard let url = savePanel.url else {return}
+        WorkPrograssWindowController.shared.show("Exporting: \(url.path)")
+
+        exportCode(url.path)
+      }
     }
   }
 }

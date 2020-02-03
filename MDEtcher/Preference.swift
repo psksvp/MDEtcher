@@ -88,6 +88,7 @@ struct Preference
     set
     {
       UserDefaults.standard.set(newValue, forKey: "editorTheme")
+  
     }
   }
   
@@ -102,6 +103,30 @@ struct Preference
     set
     {
       UserDefaults.standard.set(newValue, forKey: "previewCss")
+    }
+  }
+  
+  static var editorFont: NSFont
+  {
+    get
+    {
+      if let face = UserDefaults.standard.string(forKey: "editorFontFace"),
+         let size = UserDefaults.standard.string(forKey: "editorFontSize"),
+         let font = NSFont(name: face, size: CGFloat(Float(size)!))
+      {
+        return font
+      }
+      else
+      {
+        return NSFont(name: "Menlo", size: 14)!
+      }
+    }
+    
+    set
+    {
+      UserDefaults.standard.set(newValue.fontName, forKey: "editorFontFace")
+      UserDefaults.standard.set("\(newValue.pointSize)", forKey: "editorFontSize")
+      Log.info("set user default editor font to \(newValue.fontName), \(newValue.pointSize)")
     }
   }
 }

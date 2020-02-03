@@ -285,20 +285,6 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
   }
 }
 
-extension String
-{
-  func isRangeInBound(_ range: NSRange) -> Bool
-  {
-    guard let _ = Range(range, in: self) else {return false}
-    return true
-  }
-  
-  func substring(with nsrange: NSRange) -> Substring?
-  {
-    guard let range = Range(nsrange, in: self) else { return nil }
-    return self[range]
-  }
-}
 
 
 

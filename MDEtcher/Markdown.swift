@@ -74,7 +74,7 @@ class Markdown
 
     let pattern = #"(?s)~~~\s*csvtable\s*(.*?)~~~"#
     let regex = try? NSRegularExpression(pattern: pattern, options:[])
-    for (_, csvBlock) in md.findAndLift(string: pattern, options: [.regularExpression])
+    for (_, csvBlock) in md.liftRegexPattern(pattern)
     {
       if let match = regex?.firstMatch(in: csvBlock,
                                        options: [],
