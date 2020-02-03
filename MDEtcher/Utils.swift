@@ -35,8 +35,20 @@ func readDefault(forkey key:String, notFoundReturn:  String) -> String
   }
 }
 
-
-
+func fileSelectorDialog(_ message: String, userSelected: @escaping (_ path: String) -> Void) -> Void
+{
+  let openPanel = NSOpenPanel()
+  openPanel.title = message
+  openPanel.message = message
+  openPanel.allowsMultipleSelection = false
+  openPanel.canChooseDirectories = false
+  openPanel.canCreateDirectories = false
+  openPanel.canChooseFiles = true
+  if .OK == openPanel.runModal()
+  {
+    userSelected(openPanel.url!.path)
+  }
+}
 
 
 

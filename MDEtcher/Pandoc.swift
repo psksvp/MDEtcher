@@ -115,12 +115,20 @@ class Pandoc
   
   class func write(_ md: String, toPDF pdfOutputPath: String) -> Void
   {
+    guard let xelatex = Resource.xelatexPath else
+    {
+      Log.warn("users did not select path to xelatex")
+      return
+    }
+
     let args = ["--top-level-division=chapter",
                 "--toc",
-                "--pdf-engine=/Library/TeX/texbin/xelatex",
+                "--pdf-engine=\(xelatex)",
                 "-V", "linkcolor:blue",
                 "-V", "geometry:a4paper",
                 "-o", pdfOutputPath]
+    Log.info("going to run pandoc \(args.joined(separator:" "))")
     runWithProgressShowed(md, args)
+
   }
 }

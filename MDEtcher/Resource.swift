@@ -97,4 +97,35 @@ class Resource
       default                           : return nil
     }
   }
+  
+  static var xelatexPath: String?
+  {
+    get
+    {
+      func askUserToSelect()
+      {
+        let fs = FileSelectorController.shared
+        fs.messageText = "Export to pdf require XeLatex.\nPlease enter path to Xelatex"
+        if .OK == fs.showModal()
+        {
+          UserDefaults.standard.set(fs.filePath, forKey: "xelatexPath")
+        }
+      }
+      
+      var count = 1
+      while count >= 0
+      {
+        switch UserDefaults.standard.value(forKey: "xelatexPath")
+        {
+          case .some(let path as String) : return path
+          default                        : askUserToSelect()
+                                           count = count - 1
+        }
+      }
+      return nil
+    }
+  }
+  
+  
+  
 }

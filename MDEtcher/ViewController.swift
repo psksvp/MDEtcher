@@ -47,7 +47,6 @@ class ViewController: NSViewController, WKNavigationDelegate
     
     // init clipview top Y pos to detect scroll up or down
     visibleTop = editorClipView.bounds.minY
-    
   }
 
   override var representedObject: Any?
@@ -153,6 +152,12 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func exportPDF(_ send: Any)
   {
+    guard let _ = Resource.xelatexPath else
+    {
+      Log.info("export PDF, user did not provide path to xelatex")
+      return
+    }
+    
     exportFile("pdf")
     {
       path in
