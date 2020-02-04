@@ -210,44 +210,91 @@ class PreviewManager : NSObject
                              searchReverse: sr)
   }
   
+  func print()
+  {
+//    let onLoad = """
+//    <script>
+//    document.addEventListener('readystatechange', event =>
+//    {
+//      if (event.target.readyState === "complete")
+//      {
+//         window.print();
+//      }
+//    });
+//    </script>
+//    <body>
+//    """
+
+    if let html = Pandoc.toHTML(markdown: VC.editorView.string,
+                                css: Preference.previewCSS)
+    {
+      //let p = html.replacingOccurrences(of: "<body>", with: onLoad)
+      let path = "\(FileManager.default.temporaryDirectory.path)/p.html"
+      FS.writeText(inString: html, toPath: path)
+      if FileManager.default.fileExists(atPath: path)
+      {
+        OS.spawn(["/usr/bin/open", path], nil)
+      }
+      else
+      {
+        DispatchQueue.main.async
+        {
+          let a = NSAlert()
+          a.messageText = "Print Fail, fail to write to\n\(path)"
+          a.alertStyle = .warning
+          a.addButton(withTitle: "OK")
+          a.beginSheetModal(for: self.VC.view.window!)
+        }
+      }
+    }
+  }
+  
 }
 
 
-/*
-class WebPrinter: NSObject, WebFrameLoadDelegate {
 
-    let window: NSWindow
-    var printView: WebView?
-    let printInfo = NSPrintInfo.shared
+//class WebPrinter: NSObject, WebFrameLoadDelegate
+//{
+//    let window: NSWindow
+//    var printView: WebView?
+//    let printInfo = NSPrintInfo.shared
+//
+//    init(window: NSWindow)
+//    {
+//        self.window = window
+//        printInfo.topMargin = 30
+//        printInfo.bottomMargin = 15
+//        printInfo.rightMargin = 0
+//        printInfo.leftMargin = 0
+//      print("0000000")
+//    }
+//
+//    func printHtml(_ html: String)
+//    {
+//        let printViewFrame = NSMakeRect(0, 0, printInfo.paperSize.width, printInfo.paperSize.height)
+//        printView = WebView(frame: printViewFrame, frameName: "printFrame", groupName: "printGroup")
+//        printView!.shouldUpdateWhileOffscreen = true
+//        printView!.frameLoadDelegate = self
+//        printView!.mainFrame.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+//      print("111111111")
+//    }
+//
+//    func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!)
+//    {
+//        if sender.isLoading {
+//          print("2222222")
+//            return
+//        }
+//        if frame != sender.mainFrame {
+//          print("333333")
+//            return
+//        }
+//        if sender.stringByEvaluatingJavaScript(from: "document.readyState") == "complete" {
+//          print("4444444")
+//            sender.frameLoadDelegate = nil
+//            let printOperation = NSPrintOperation(view: frame.frameView.documentView, printInfo: printInfo)
+//            printOperation.runModal(for: window, delegate: window, didRun: nil, contextInfo: nil)
+//        }
+//    }
+//}
 
-    init(window: NSWindow) {
-        self.window = window
-        printInfo.topMargin = 30
-        printInfo.bottomMargin = 15
-        printInfo.rightMargin = 0
-        printInfo.leftMargin = 0
-    }
-
-    func printHtml(_ html: String) {
-        let printViewFrame = NSMakeRect(0, 0, printInfo.paperSize.width, printInfo.paperSize.height)
-        printView = WebView(frame: printViewFrame, frameName: "printFrame", groupName: "printGroup")
-        printView!.shouldUpdateWhileOffscreen = true
-        printView!.frameLoadDelegate = self
-        printView!.mainFrame.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
-    }
-
-    func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
-        if sender.isLoading {
-            return
-        }
-        if frame != sender.mainFrame {
-            return
-        }
-        if sender.stringByEvaluatingJavaScript(from: "document.readyState") == "complete" {
-            sender.frameLoadDelegate = nil
-            let printOperation = NSPrintOperation(view: frame.frameView.documentView, printInfo: printInfo)
-            printOperation.runModal(for: window, delegate: window, didRun: nil, contextInfo: nil)
-        }
-    }
-}
-*/

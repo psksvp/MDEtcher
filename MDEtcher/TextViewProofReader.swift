@@ -235,29 +235,35 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
                          willSpeakWord characterRange: NSRange,
                          of string: String)
   {
-    DispatchQueue.main.async  // this delegate is called from a thread?, so put on the main thread for GUI stuff
+    
+    func rangeOfWordTTSWillSpeak() -> NSRange?
     {
-      let s = self.textView.string
-      if let r = s.intIndex(of: string)
-      {
-        let m = NSMakeRange(r + characterRange.location, characterRange.length)
+      // var *string* contains a block of text inside textView.string
+      // *characterRange* contains the range of the word which about to be spoken in
+      // *string*
       
-        if s.isRangeInBound(m)
-        {
-          if self.writingToFile
-          {
-            WorkPrograssWindowController.shared.message.append("\(String(s.substring(with: characterRange)!)) ")
-          }
-          else
-          {
-            self.textView.setSelectedRange(m)
-          }
-        }
-        else
-        {
-          Log.warn("TextViewProofReader cannot hightlight text, calcualted range of not with the string bound")
-        }
+      // first the range of block of text (var string) in textview
+      
+      guard let r = self.textView.string.range(of: string) else
+      {
+        Log.warn("rangeOfWordTTSWillSpeak could not find string in textView")
+        return nil
       }
+      
+      let nsr = NSRange(r, in: self.textView.string)
+      return NSMakeRange(nsr.location + characterRange.location, characterRange.length)
+    }
+    
+    
+    if self.writingToFile,
+       let word = string.substring(with: characterRange)
+    {
+      WorkPrograssWindowController.shared.message.append("\(word)")
+    }
+    else
+    {
+      guard let r = rangeOfWordTTSWillSpeak() else {return}
+      self.textView.setSelectedRange(r)
     }
   }
   

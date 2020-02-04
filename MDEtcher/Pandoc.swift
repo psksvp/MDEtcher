@@ -44,7 +44,7 @@ class Pandoc
         {
           Log.warn("pandoc stderr : \(err)")
           WorkPrograssWindowController.shared.enableDoneButton()
-          WorkPrograssWindowController.shared.message.append(err)
+          WorkPrograssWindowController.shared.message = "Pandoc Error:\n \(err)"
         }
         else
         {
@@ -125,7 +125,7 @@ class Pandoc
                 "--toc",
                 "--pdf-engine=\(xelatex)",
                 "-V", "linkcolor:blue",
-                "-V", "geometry:a4paper",
+                //"-V", "geometry:a4paper",
                 "-o", pdfOutputPath]
     Log.info("going to run pandoc \(args.joined(separator:" "))")
     runWithProgressShowed(md, args)

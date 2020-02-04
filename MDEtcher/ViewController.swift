@@ -150,7 +150,15 @@ class ViewController: NSViewController, WKNavigationDelegate
     }
   }
   
-  @IBAction func exportPDF(_ send: Any)
+  @IBAction func printPreview(_ sender: Any)
+  {
+    DispatchQueue.global().async
+    {
+      self.previewManager.print()
+    }
+  }
+  
+  @IBAction func exportPDF(_ sender: Any)
   {
     guard let _ = Resource.xelatexPath else
     {
@@ -166,10 +174,6 @@ class ViewController: NSViewController, WKNavigationDelegate
       DispatchQueue.global(qos: .background).async
       {
         Pandoc.write(md, toPDF: path)
-        DispatchQueue.main.async
-        {
-          WorkPrograssWindowController.shared.hide()
-        }
       }
     }
   }

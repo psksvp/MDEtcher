@@ -9,5 +9,6 @@ push:
 	
 
 copyApp:
-	cp -R ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app  ~/Applications/.
+	rm -rf ~/Applications/MDEtcher.app
+	mv -f ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app  ~/Applications/.
 	

@@ -91,9 +91,9 @@ class Resource
     
     switch (c1, c2)
     {
-      case (.some(let a), .some(let b)) : return a + b
-      case (.none, .some(let b))        : return b
-      case (.some(let a), .none)        : return a
+      case (.some(let a), .some(let b)) : return (a + b).filter { $0.first != "."}
+      case (.none, .some(let b))        : return b.filter { $0.first != "."}
+      case (.some(let a), .none)        : return a.filter { $0.first != "."}
       default                           : return nil
     }
   }
