@@ -46,6 +46,14 @@ class Resource
     }
   }
   
+  static var mathJaxDir: String
+  {
+    get
+    {
+      return "\(Resource.bundlePath)/MathJax"
+    }
+  }
+  
   static var busyAnimation: NSImage
   {
     get
@@ -126,6 +134,21 @@ class Resource
     }
   }
   
+  static var asciiMathPath: String?
+  {
+    get
+    {
+      return Resource.path(forResourceName: "ASCIIMathML.js", inFolder: "MathJax")
+    }
+  }
+  
+  static var asciiMathHTMLPath: String?
+  {
+    get
+    {
+      return Resource.path(forResourceName: "AsciiMathML.script.html", inFolder: "MathJax")
+    }
+  }
   
   private static var mermaidCache: String? = nil
   

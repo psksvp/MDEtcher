@@ -263,7 +263,14 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
     else
     {
       guard let r = rangeOfWordTTSWillSpeak() else {return}
-      self.textView.setSelectedRange(r)
+      if self.textView.string.isRangeInBound(r)
+      {
+        self.textView.setSelectedRange(r)
+      }
+      else
+      {
+        Log.warn("TextViewProofReader range is out of bound while trying to highlight a spoken word.")
+      }
     }
   }
   

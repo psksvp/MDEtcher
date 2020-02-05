@@ -139,7 +139,6 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
       self.autoresizingMask = [.width,.height]
       self.translatesAutoresizingMaskIntoConstraints = true
       
-      
       editorThemeMenu?.removeAllItems()
       for t in highlightedCS.highlightr.availableThemes()
       {
@@ -182,6 +181,11 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     if self.isAutomaticQuoteSubstitutionEnabled
     {
       self.toggleAutomaticQuoteSubstitution(self)
+    }
+    
+    if self.isAutomaticDashSubstitutionEnabled
+    {
+      self.toggleAutomaticDashSubstitution(self)
     }
   }
   

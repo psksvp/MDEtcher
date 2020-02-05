@@ -65,8 +65,13 @@ class Pandoc
       return nil
     }
     
+    
     let scrollPassEnd = previewing ? ["--include-after-body=\(Resource.newLinesBlockPath!)"] : []
-    let mermaid = true ? ["--include-in-header=\(Resource.mermaidHTMLPath!)"] : []
+    
+    let mermaid = markdown.range(of: #"~~~\s*mermaid"#,
+                            options: .regularExpression) != nil ? ["--include-in-header=\(Resource.mermaidHTMLPath!)"] : []
+    
+    let asciiMath = true ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
     
     let args = ["--css=\(cssPath)",
                 "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions",
@@ -74,14 +79,7 @@ class Pandoc
                 "--self-contained",
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
-                "--mathjax=\(Resource.mathJax)"] + scrollPassEnd + mermaid
-  
-    return run(markdown, args)
-  }
-  
-  class func toText(markdown: String) -> String?
-  {
-    let args = ["--to=html5"]
+                "--mathjax=\(Resource.mathJax)"] + scrollPassEnd + mermaid + asciiMath
     return run(markdown, args)
   }
   

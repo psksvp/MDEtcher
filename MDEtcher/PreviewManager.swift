@@ -226,14 +226,15 @@ class PreviewManager : NSObject
 //    """
 
     if let html = Pandoc.toHTML(markdown: VC.editorView.string,
-                                css: Preference.previewCSS)
+                                css: Preference.previewCSS,
+                                previewing: false)
     {
       //let p = html.replacingOccurrences(of: "<body>", with: onLoad)
       let path = "\(FileManager.default.temporaryDirectory.path)/p.html"
       FS.writeText(inString: html, toPath: path)
       if FileManager.default.fileExists(atPath: path)
       {
-        OS.spawn(["/usr/bin/open", path], nil)
+        OS.spawn(["/usr/bin/open", "-a", "Safari.app", path], nil)
       }
       else
       {
