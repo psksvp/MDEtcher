@@ -127,5 +127,52 @@ class Resource
   }
   
   
+  private static var mermaidCache: String? = nil
+  
+  static var mermaidPath: String?
+  {
+    get
+    {
+      return Resource.path(forResourceName: "mermaid.min.js", inFolder: "Mermaid")
+    }
+  }
+  
+  static var mermaidHTMLPath:String?
+  {
+    get
+    {
+      return Resource.path(forResourceName: "mermaid.script.html", inFolder: "Mermaid")
+    }
+  }
+  
+  static var mermaidJS: String
+  {
+    get
+    {
+      if let s = Resource.mermaidCache
+      {
+        return s
+      }
+      else if let path = Resource.mermaidPath,
+              let s = FS.readText(fromLocalPath: path)
+      {
+        Resource.mermaidCache = s //Resource.path already check for us
+        return Resource.mermaidCache!
+      }
+      else
+      {
+        Log.error("could not cache Mermaid")
+        return "" // I want to crash  it here.
+      }
+    }
+  }
+  
+  static var newLinesBlockPath: String?
+  {
+    get
+    {
+      return Resource.path(forResourceName: "newlines.html", inFolder: "miscResources")
+    }
+  }
   
 }

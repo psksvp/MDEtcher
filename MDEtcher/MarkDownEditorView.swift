@@ -217,10 +217,14 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   @objc func updateOutline(_ sender: Any)
   {
-    let md = self.string
+    fillOutline(self.string)
+  }
+  
+  func fillOutline(_ md: String)
+  {
     DispatchQueue.global(qos: .background).async
     {
-       if let ol = Markdown.herderOutline(md)
+       if let ol = Markdown.headerOutline(md)
        {
          DispatchQueue.main.async
          {

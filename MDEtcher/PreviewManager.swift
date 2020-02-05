@@ -133,7 +133,7 @@ class PreviewManager : NSObject
        
     vc.cssSelector.selectItem(withObjectValue: Preference.previewCSS)
     putCheckmark(title: Preference.previewCSS, inMenu: previewCssMenu!)
-    
+    vc.cssSelector.numberOfVisibleItems = cssFiles.count >= 30 ? 30 : cssFiles.count
   }
   
   @objc func cssPreviewStyleMenuSelected(_ sender: NSMenuItem)

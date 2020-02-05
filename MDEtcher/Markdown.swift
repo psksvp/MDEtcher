@@ -12,7 +12,7 @@ import CommonSwift
 
 class Markdown
 {
-  class func herderOutline(_ md: String) -> [String]?
+  class func headerOutline(_ md: String) -> [String]?
   {
     func headers() -> [Substring]
     {

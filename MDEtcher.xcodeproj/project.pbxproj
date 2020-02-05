@@ -11,6 +11,7 @@
 		231B180223CA00F70079506C /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231B180123CA00F70079506C /* Markdown.swift */; };
 		231F797723E7D19C00E623F4 /* FileSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231F797523E7D19C00E623F4 /* FileSelectorController.swift */; };
 		231F797823E7D19C00E623F4 /* FileSelectorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 231F797623E7D19C00E623F4 /* FileSelectorController.xib */; };
+		231F797A23EA0E1B00E623F4 /* Mermaid in Resources */ = {isa = PBXBuildFile; fileRef = 231F797923EA0E1B00E623F4 /* Mermaid */; };
 		232558D823E27A26003776DD /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232558D723E27A25003776DD /* Resource.swift */; };
 		232558DC23E27D7B003776DD /* images in Resources */ = {isa = PBXBuildFile; fileRef = 232558DB23E27D7B003776DD /* images */; };
 		232558DF23E39EC1003776DD /* css in Resources */ = {isa = PBXBuildFile; fileRef = 232558DD23E39EC0003776DD /* css */; };
@@ -26,6 +27,7 @@
 		2342EF2023DC0B2D00442E07 /* VoicesSelectorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */; };
 		2352C55B23C3FED3009E0BB2 /* CommonSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2352C55A23C3FED3009E0BB2 /* CommonSwift */; };
 		2352C55F23C44B07009E0BB2 /* Pandoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2352C55E23C44B07009E0BB2 /* Pandoc.swift */; };
+		2356A4CA23EA44D1002AF800 /* miscResources in Resources */ = {isa = PBXBuildFile; fileRef = 2356A4C923EA44D1002AF800 /* miscResources */; };
 		23845FB423C748A2008852E7 /* Highlighter in Frameworks */ = {isa = PBXBuildFile; productRef = 23845FB323C748A2008852E7 /* Highlighter */; };
 		2384605823C75304008852E7 /* highlighter in Resources */ = {isa = PBXBuildFile; fileRef = 2384605723C75304008852E7 /* highlighter */; };
 		2384605B23C82BCC008852E7 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2384605923C82B92008852E7 /* WebKit.framework */; };
@@ -44,6 +46,7 @@
 		231B180123CA00F70079506C /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
 		231F797523E7D19C00E623F4 /* FileSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorController.swift; sourceTree = "<group>"; };
 		231F797623E7D19C00E623F4 /* FileSelectorController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileSelectorController.xib; sourceTree = "<group>"; };
+		231F797923EA0E1B00E623F4 /* Mermaid */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Mermaid; sourceTree = "<group>"; };
 		232558D723E27A25003776DD /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		232558DB23E27D7B003776DD /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		232558DD23E39EC0003776DD /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = css; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 		2342EF1D23DC0B2D00442E07 /* VoicesSelectorWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicesSelectorWindowController.swift; sourceTree = "<group>"; };
 		2342EF1E23DC0B2D00442E07 /* VoicesSelectorWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoicesSelectorWindowController.xib; sourceTree = "<group>"; };
 		2352C55E23C44B07009E0BB2 /* Pandoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pandoc.swift; sourceTree = "<group>"; };
+		2356A4C923EA44D1002AF800 /* miscResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = miscResources; sourceTree = "<group>"; };
 		2384605723C75304008852E7 /* highlighter */ = {isa = PBXFileReference; lastKnownFileType = folder; path = highlighter; sourceTree = "<group>"; };
 		2384605923C82B92008852E7 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		239B727223C335AB008D719C /* MDEtcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDEtcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +102,8 @@
 		239B726923C335AB008D719C = {
 			isa = PBXGroup;
 			children = (
+				2356A4C923EA44D1002AF800 /* miscResources */,
+				231F797923EA0E1B00E623F4 /* Mermaid */,
 				232558DD23E39EC0003776DD /* css */,
 				232558DE23E39EC1003776DD /* MathJax */,
 				232558DB23E27D7B003776DD /* images */,
@@ -218,8 +224,10 @@
 				231F797823E7D19C00E623F4 /* FileSelectorController.xib in Resources */,
 				232558DF23E39EC1003776DD /* css in Resources */,
 				239B727C23C335AE008D719C /* Assets.xcassets in Resources */,
+				2356A4CA23EA44D1002AF800 /* miscResources in Resources */,
 				233DD31223C491E700E3D1E6 /* pandoc in Resources */,
 				23E7D25023DAC25A00285FF6 /* MDEtcher.icns in Resources */,
+				231F797A23EA0E1B00E623F4 /* Mermaid in Resources */,
 				2384605823C75304008852E7 /* highlighter in Resources */,
 				232558DC23E27D7B003776DD /* images in Resources */,
 				239B727F23C335AE008D719C /* Main.storyboard in Resources */,

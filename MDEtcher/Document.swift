@@ -39,7 +39,7 @@ class Document: NSDocument
       {
         tv.string = textReadBuffer
         textView = tv
-        tv.updateOutline(self)
+        tv.fillOutline(textReadBuffer)
       }
       else
       {

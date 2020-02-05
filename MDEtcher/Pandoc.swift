@@ -69,29 +69,17 @@ class Pandoc
       return nil
     }
     
+    let scrollPassEnd = previewing ? ["--include-after-body=\(Resource.newLinesBlockPath!)"] : []
+    let mermaid = true ? ["--include-in-header=\(Resource.mermaidHTMLPath!)"] : []
+    
     let args = ["--css=\(cssPath)",
+                "--from=markdown_strict",
                 "--to=html5",
                 "--self-contained",
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
-                "--mathjax=\(Resource.mathJax)"]
+                "--mathjax=\(Resource.mathJax)"] + scrollPassEnd + mermaid
   
-    if previewing
-    {
-      // allow scroll pass end
-      guard let htmlString = run(markdown, args) else {return nil}
-      let brs = String(repeating: "<br>", count: 30)
-      return htmlString.replacingOccurrences(of: "</body>\n</html>", with: "\(brs)</body></html>")
-    }
-    else
-    {
-      return run(markdown, args)
-    }
-  }
-  
-  class func toHTML(markdown: String) -> String?
-  {
-    let args = ["--to=html5", "--mathjax=\(Resource.mathJax)"]
     return run(markdown, args)
   }
   
