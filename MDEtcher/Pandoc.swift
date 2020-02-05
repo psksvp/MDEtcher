@@ -65,7 +65,7 @@ class Pandoc
       return nil
     }
     
-    
+
     let scrollPassEnd = previewing ? ["--include-after-body=\(Resource.newLinesBlockPath!)"] : []
     
     let mermaid = markdown.range(of: #"~~~\s*mermaid"#,
@@ -75,7 +75,7 @@ class Pandoc
                               options: .regularExpression) != nil ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
     
     let args = ["--css=\(cssPath)",
-                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions",
+                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables",
                 "--to=html5",
                 "--self-contained",
                 "-s",

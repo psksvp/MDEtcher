@@ -58,9 +58,16 @@ class Markdown
   class func csv2MdTable(_ csv: String) -> String?
   {
     let reader = CSVReader(with: csv)
-    let result = reader.headers.joined(separator: "|") + "\n" +
-                 String(repeating: "---|", count: reader.headers.count) + "\n" +
-                 reader.rows.map{$0.joined(separator: "|")}.joined(separator: "\n")
+//    let result = reader.headers.joined(separator: "|") + "\n" +
+//                 String(repeating: "---|", count: reader.headers.count) + "\n" +
+//                 reader.rows.map{$0.joined(separator: "|")}.joined(separator: "\n")
+    
+    let result = """
+    \(reader.headers.joined(separator: "|"))
+    \(String(repeating: "---|", count: reader.headers.count))
+    \(reader.rows.map{$0.joined(separator: "|")}.joined(separator: "\n"))
+    """
+    print(result)
     return result
   }
   
