@@ -69,15 +69,15 @@ class Markdown
   
   class func runfilters(_ md: String) -> String
   {
-    var mdf = md
+    var mdf = filterAsciiMath(md)
     if mdf.contains("csvtable")
     {
-      mdf = Markdown.csvBlocks2Tables(mdf)
+      mdf = Markdown.filterCSV(mdf)
     }
     
     if mdf.contains("mermaid")
     {
-      mdf = Markdown.mermaidIt(mdf)
+      mdf = Markdown.filterMermaid(mdf)
     }
     
     return mdf
@@ -87,7 +87,7 @@ class Markdown
   //// REFACTOR HERE
   
   
-  class func csvBlocks2Tables(_ md: String) -> String
+  class func filterCSV(_ md: String) -> String
   {
     var result = md
 
@@ -109,7 +109,7 @@ class Markdown
   }
   
   
-  class func mermaidIt(_ md: String) -> String
+  class func filterMermaid(_ md: String) -> String
   {
     func toMermaidDiv(_ s: String) -> String
     {
@@ -133,6 +133,35 @@ class Markdown
       {
         let mermaidDiv = toMermaidDiv(String(mmBlock[range]))
         result = result.replacingOccurrences(of: mmBlock, with: mermaidDiv)
+      }
+    }
+    
+    return result
+  }
+  
+  
+  /*
+   
+   <`(.*?)`>
+   
+   
+   */
+  
+  class func filterAsciiMath(_ md: String) -> String
+  {
+    var result = md
+
+    let pattern = #"<`(.*?)`>"#
+    let regex = try? NSRegularExpression(pattern: pattern, options:[])
+    for (_, mmBlock) in md.liftRegexPattern(pattern)
+    {
+      if let match = regex?.firstMatch(in: mmBlock,
+                                       options: [],
+                                       range: NSRange(mmBlock.startIndex..<mmBlock.endIndex, in: mmBlock)),
+         let range = Range(match.range(at: 1), in: mmBlock)
+      {
+        let backTick = "`` `\(String(mmBlock[range]).trim())` ``"
+        result = result.replacingOccurrences(of: mmBlock, with: backTick)
       }
     }
     
