@@ -66,7 +66,26 @@ class Markdown
   
   
   // filters
+  
+  class func runfilters(_ md: String) -> String
+  {
+    var mdf = md
+    if mdf.contains("csvtable")
+    {
+      mdf = Markdown.csvBlocks2Tables(mdf)
+    }
+    
+    if mdf.contains("mermaid")
+    {
+      mdf = Markdown.mermaidIt(mdf)
+    }
+    
+    return mdf
+  }
+  
   /////////////////////
+  //// REFACTOR HERE
+  
   
   class func csvBlocks2Tables(_ md: String) -> String
   {
@@ -90,9 +109,34 @@ class Markdown
   }
   
   
-  class func dot2Image(_ md: String) -> String
+  class func mermaidIt(_ md: String) -> String
   {
-    return md
+    func toMermaidDiv(_ s: String) -> String
+    {
+      return """
+      <div class="mermaid">
+      \(s)
+      </div>
+      """
+    }
+    
+    var result = md
+
+    let pattern = #"(?s)~~~\s*mermaid\s*(.*?)~~~"#
+    let regex = try? NSRegularExpression(pattern: pattern, options:[])
+    for (_, mmBlock) in md.liftRegexPattern(pattern)
+    {
+      if let match = regex?.firstMatch(in: mmBlock,
+                                       options: [],
+                                       range: NSRange(mmBlock.startIndex..<mmBlock.endIndex, in: mmBlock)),
+         let range = Range(match.range(at: 1), in: mmBlock)
+      {
+        let mermaidDiv = toMermaidDiv(String(mmBlock[range]))
+        result = result.replacingOccurrences(of: mmBlock, with: mermaidDiv)
+      }
+    }
+    
+    return result
   }
   
 }

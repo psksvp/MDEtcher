@@ -14,9 +14,7 @@ class Pandoc
 {
   @discardableResult class func run(_ md: String, _ args: [String]) -> String?
   {
-    let mdf1 = Markdown.csvBlocks2Tables(md)
-    
-    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, mdf1)
+    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, Markdown.runfilters(md))
     {
       Log.warn("pandoc stderr : \(err)")
       return output
@@ -26,17 +24,15 @@ class Pandoc
       return nil
     }
   }
-  
+  // refactor me
   @discardableResult class func runWithProgressShowed(_ md: String, _ args: [String]) -> String?
   {
-    let mdf1 = Markdown.csvBlocks2Tables(md)
-    
     DispatchQueue.main.async
     {
       WorkPrograssWindowController.shared.message = args.joined(separator: " ")
     }
     
-    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, mdf1)
+    if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, Markdown.runfilters(md))
     {
       DispatchQueue.main.async
       {
@@ -73,7 +69,7 @@ class Pandoc
     let mermaid = true ? ["--include-in-header=\(Resource.mermaidHTMLPath!)"] : []
     
     let args = ["--css=\(cssPath)",
-                "--from=markdown_strict",
+                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions",
                 "--to=html5",
                 "--self-contained",
                 "-s",
