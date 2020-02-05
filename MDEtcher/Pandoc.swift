@@ -71,7 +71,8 @@ class Pandoc
     let mermaid = markdown.range(of: #"~~~\s*mermaid"#,
                             options: .regularExpression) != nil ? ["--include-in-header=\(Resource.mermaidHTMLPath!)"] : []
     
-    let asciiMath = true ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
+    let asciiMath = markdown.range(of: #"<`(.*?)`>"#,
+                              options: .regularExpression) != nil ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
     
     let args = ["--css=\(cssPath)",
                 "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions",

@@ -85,8 +85,6 @@ class Markdown
   
   /////////////////////
   //// REFACTOR HERE
-  
-  
   class func filterCSV(_ md: String) -> String
   {
     var result = md
@@ -143,8 +141,6 @@ class Markdown
   /*
    
    <`(.*?)`>
-   
-   
    */
   
   class func filterAsciiMath(_ md: String) -> String
