@@ -75,7 +75,7 @@ class Pandoc
                               options: .regularExpression) != nil ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
     
     let args = ["--css=\(cssPath)",
-                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables",
+                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables+strikeout+backtick_code_blocks+auto_identifiers+citations+example_lists+fancy_lists+header_attributes+yaml_metadata_block",
                 "--to=html5",
                 "--self-contained",
                 "-s",
