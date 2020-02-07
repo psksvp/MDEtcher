@@ -166,9 +166,11 @@ class PreviewManager : NSObject
     let cssName = readDefault(forkey: "previewCss",
                               notFoundReturn: "style.epub.css")
     
+    let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
+    
     DispatchQueue.global(qos: .background).async
     {
-      if let html = Pandoc.toHTML(markdown: md, css: cssName)
+      if let html = Pandoc.toHTML(markdown: md, css: cssName, filesResourcePath: rscPath)
       {
         DispatchQueue.main.async
         {
@@ -211,25 +213,14 @@ class PreviewManager : NSObject
   }
   
   func print()
-  {
-//    let onLoad = """
-//    <script>
-//    document.addEventListener('readystatechange', event =>
-//    {
-//      if (event.target.readyState === "complete")
-//      {
-//         window.print();
-//      }
-//    });
-//    </script>
-//    <body>
-//    """
+  {    
+    let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
 
     if let html = Pandoc.toHTML(markdown: VC.editorView.string,
                                 css: Preference.previewCSS,
+                                filesResourcePath: rscPath,
                                 previewing: false)
     {
-      //let p = html.replacingOccurrences(of: "<body>", with: onLoad)
       let path = "\(FileManager.default.temporaryDirectory.path)/p.html"
       FS.writeText(inString: html, toPath: path)
       if FileManager.default.fileExists(atPath: path)

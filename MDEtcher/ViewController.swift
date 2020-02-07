@@ -69,6 +69,17 @@ class ViewController: NSViewController, WKNavigationDelegate
   }
   
   
+  /////////
+  // it should not be done this way
+  var documentURL: URL?
+  {
+    get
+    {
+      return (self.view.window?.windowController?.document as? Document)?.fileURL
+    }
+  }
+  
+  
   //////////////////////////////////////
   // UI action
   //////////////////////////////////////

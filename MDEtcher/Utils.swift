@@ -50,7 +50,9 @@ func fileSelectorDialog(_ message: String, userSelected: @escaping (_ path: Stri
   }
 }
 
-
-
+func directoryPathOfFileURL(_ url: URL) -> String
+{
+  return url.deletingLastPathComponent().path
+}
 
 

@@ -18,14 +18,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="448" height="320"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="contentRect" x="196" y="240" width="482" height="230"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="448" height="320"/>
+                <rect key="frame" x="0.0" y="0.0" width="482" height="230"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dhv-vX-1oJ">
-                        <rect key="frame" x="362" y="5" width="72" height="32"/>
+                        <rect key="frame" x="396" y="5" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="a3a-Co-CQj">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -35,20 +35,20 @@
                             <action selector="doneButtonPushed:" target="-2" id="T1c-Uu-qYW"/>
                         </connections>
                     </button>
-                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miQ-s4-jf9">
-                        <rect key="frame" x="8" y="53" width="431" height="236"/>
+                    <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miQ-s4-jf9">
+                        <rect key="frame" x="8" y="53" width="465" height="146"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="C5x-Jm-PRc">
-                            <rect key="frame" x="0.0" y="0.0" width="416" height="236"/>
+                            <rect key="frame" x="0.0" y="0.0" width="465" height="146"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="bar" spellingCorrection="YES" smartInsertDelete="YES" id="dMz-fC-wBb">
-                                    <rect key="frame" x="0.0" y="0.0" width="416" height="236"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="465" height="146"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="416" height="236"/>
-                                    <size key="maxSize" width="420" height="10000000"/>
+                                    <size key="minSize" width="465" height="146"/>
+                                    <size key="maxSize" width="484" height="10000000"/>
                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
                             </subviews>
@@ -57,13 +57,13 @@
                             <rect key="frame" x="-100" y="-100" width="225" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="qLl-cb-z7H">
-                            <rect key="frame" x="416" y="0.0" width="15" height="236"/>
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="qLl-cb-z7H">
+                            <rect key="frame" x="451" y="0.0" width="16" height="139"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hiw-da-Q6P">
-                        <rect key="frame" x="8" y="0.0" width="48" height="48"/>
+                        <rect key="frame" x="200" y="-3" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSStatusAvailable" id="mAi-NN-e6m"/>
                     </imageView>
@@ -72,7 +72,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="-20" y="-218"/>
+            <point key="canvasLocation" x="-315" y="-331"/>
         </window>
     </objects>
     <resources>
