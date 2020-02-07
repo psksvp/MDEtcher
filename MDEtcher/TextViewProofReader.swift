@@ -243,7 +243,9 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
       // *string*
       
       // first the range of block of text (var string) in textview
-      
+    
+      //let text = self.textView.textStorage?.string
+  
       guard let r = self.textView.string.range(of: string) else
       {
         Log.warn("rangeOfWordTTSWillSpeak could not find string block in textView")
@@ -275,6 +277,16 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
     {
       WorkPrograssWindowController.shared.hide()
     }
+  }
+  
+  func speechSynthesizer(_ sender: NSSpeechSynthesizer, didEncounterSyncMessage message: String)
+  {
+    Log.warn("speechSynthesizer Sync Message : \(message)")
+  }
+  
+  func speechSynthesizer(_ sender: NSSpeechSynthesizer, didEncounterErrorAt characterIndex: Int, of string: String, message: String)
+  {
+    Log.warn("speechSynthesizer error at char \(characterIndex), message: \(message)")
   }
   
   // handle actions

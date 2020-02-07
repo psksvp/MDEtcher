@@ -93,7 +93,6 @@ class Pandoc
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
                 "--mathjax=\(Resource.mathJax)"] + scrollPassEnd + mermaid + asciiMath + rscPath
-    print(args)
     return run(markdown, args)
   }
   

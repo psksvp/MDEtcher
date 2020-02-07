@@ -221,7 +221,10 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   @objc func updateOutline(_ sender: Any)
   {
-    fillOutline(self.string)
+    if false == self.string.isEmpty
+    {
+      fillOutline(self.string)
+    }
   }
   
   func fillOutline(_ md: String)
@@ -232,18 +235,21 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
        {
          DispatchQueue.main.async
          {
-           let selectedTitle = self.VC.outlineSelector.selectedItem?.title
+          let selectedTitle = self.VC.outlineSelector.selectedItem?.title
            
            self.VC.outlineSelector.removeAllItems()
            self.VC.outlineSelector.addItems(withTitles: ol)
           
-           if let title = selectedTitle
+           if let title = selectedTitle,
+              title != "Outline"
            {
              self.VC.outlineSelector.selectItem(withTitle: title)
+            Log.info("select outline at title \(title)")
            }
            else
            {
-            self.VC.outlineSelector.selectItem(at: 0)
+             self.VC.outlineSelector.selectItem(at: 0)
+             Log.info("select outline at index 0")
            }
          }
        }

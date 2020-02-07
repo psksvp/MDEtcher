@@ -7,18 +7,27 @@ push:
 	git push origin
 	git push gitlab
 	
-buildDebug:
+debug:
 	 xcodebuild -scheme MDEtcher build
 	
-buildRelease:
+release:
 	 xcodebuild -scheme MDEtcher -configuration Release build 	
 
-copyApp: buildRelease
+copyApp: release
 	rm -rf ~/Applications/MDEtcher.app
 	mv -f ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app  ~/Applications/.
 	
-runRelease:	buildRelease
+runRelease:	release
 	./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app/Contents/MacOS/MDEtcher	
 	
-runDebug:	buildDebug
+runDebug:	debug
 	./DerivedData/MDEtcher/Build/Products/Debug/MDEtcher.app/Contents/MacOS/MDEtcher
+	
+zip: release
+	cd ./DerivedData/MDEtcher/Build/Products/Release; zip -r MDEtcher.app.zip ./MDEtcher.app
+	mv ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.zip .
+	
+clean:
+	rm -rf ./DerivedData
+	rm -f MDEtcher.zip
+	

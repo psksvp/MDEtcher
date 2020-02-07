@@ -64,9 +64,10 @@ extension WKWebView
     let js = """
     var bgColor = document.body.style.backgroundColor;
     var x = document.querySelectorAll("p, q, li, h1, h2, h3");
+    var s = \(s)
     \(loopHead)
     {
-      if(x[i].textContent.indexOf(\(s)) >= 0)
+      if(x[i].textContent.indexOf(s) >= 0)
       {
         x[i].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
         x[i].style.backgroundColor = "Azure";
