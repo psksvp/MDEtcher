@@ -42,6 +42,12 @@ class ViewController: NSViewController
     
     // init clipview top Y pos to detect scroll up or down
     visibleTop = editorClipView.bounds.minY
+    
+    self.editorClipView.postsBoundsChangedNotifications = true
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(editorVisibleViewChanged),
+                                           name: NSClipView.boundsDidChangeNotification,
+                                           object: self.editorClipView)
   }
 
   override var representedObject: Any?
@@ -67,6 +73,20 @@ class ViewController: NSViewController
     {
       return (self.view.window?.windowController?.document as? Document)?.fileURL
     }
+  }
+  
+  ///
+  @objc func editorVisibleViewChanged(_ :Notification)
+  {
+    // sync scrolling
+    guard previewView.documentHeight > 0 else {return}
+
+    let h1 = Float(editorClipView.documentRect.height)
+    let h2 = Float(previewView.documentHeight)
+    let p1 = Float(editorClipView.bounds.origin.y)
+    let p2 = (h2 * p1) / h1
+    print(p1, p2)
+    previewView.scrollToVerticalPoint(Int(round(p2)))
   }
   
   
@@ -107,7 +127,10 @@ class ViewController: NSViewController
   
   @IBAction func previewCopyHTML(_ sender: Any)
   {
-    previewView.copyHTML()
+    //previewView.copyHTML()
+    let html = previewView.html
+    NSPasteboard.general.declareTypes([.string], owner: self)
+    NSPasteboard.general.setString(html, forType: .string)
   }
   
   @IBAction func previewUpdate(_ sender: Any)

@@ -71,29 +71,6 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     VC.syncPreviewWithEditor(self)
   }
   
-  override func scrollWheel(with event: NSEvent)
-  {
-    super.scrollWheel(with: event)
-        
-    // save the cursor pos
-    let cursorPos = selectedRange()
-
-    // find the para of the visble text
-    guard let lm = self.layoutManager else {return}
-    guard let tc = self.textContainer else {return}
-    let visibleRange = lm.glyphRange(forBoundingRect: self.visibleRect,
-                                     in: tc)
-
-    let r = NSMakeRange(visibleRange.location + 100, 0)
-    self.setSelectedRange(r)
-
-    //sync with preview if user prefer
-    VC.syncPreviewWithEditor(self)
-
-    // move cursor back
-    self.setSelectedRange(cursorPos)
-  }
-  
   func setup(_ vc: ViewController)
   {
     VC = vc

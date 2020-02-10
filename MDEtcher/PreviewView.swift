@@ -13,37 +13,6 @@ import WebKit
 
 extension WKWebView
 {
-  /// does not work eval JS is async
-  var html: String?
-  {
-    get
-    {
-      var htmlString: String? = nil
-      self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
-      {
-        (data, error) in
-      
-         if let d = data,
-            let html = d as? String
-         {
-           htmlString = html
-         }
-         else
-         {
-           Log.warn("Did not copy HTML")
-           dump(error)
-         }
-      }
-      
-      return htmlString
-    }
-  }
-  
-//  func verticalScrollPosition() -> Int
-//  {
-//    //self.eva
-//  }
-  
   func scrollToAnchor(_ s:String) -> Void
   {
     let anchor = "\"#\(s.lowercased().trim().replacingOccurrences(of: " ", with: "-"))\""
@@ -95,15 +64,37 @@ extension WKWebView
 /////////////////////////////////////////////////////////
 class PreviewView : WKWebView, WKNavigationDelegate
 {
-  private var currentYPos = 0
+  private var visiblePosY = 0
   private var VC: ViewController!
   private var updating: Bool = false
-//  {
-//    didSet
-//    {
-//      self.VC.runBusyIcon(updating)
-//    }
-//  }
+  {
+    didSet { VC.runBusyIcon(updating) }
+  }
+  
+  private var _html: String = "<html><body></body></html>"
+  private var _documentHeight = 0
+  
+  var documentHeight: Int
+  {
+    get
+    {
+      updatePropertyDocumentHeight()
+      return _documentHeight
+    }
+  }
+  
+  var html: String
+  {
+    get
+    {
+      return _html
+    }
+    
+    set
+    {
+      self.loadHTMLString(newValue, baseURL: Bundle.main.resourceURL)
+    }
+  }
   
   
   func setup(_ vc: ViewController)
@@ -121,14 +112,58 @@ class PreviewView : WKWebView, WKNavigationDelegate
   // WkWebView didFinish
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
   {
-    self.VC.syncPreviewWithEditor(self)
-    // SHOULD DO? : if the above stmt fail, do below
-//    if let selectedTitleInOutline = self.outlineSelector.selectedItem
-//    {
-//      self.webView.scrollToAnchor(selectedTitleInOutline.title)
-//    }
+    Log.info("did finish loading preview")
+    self.VC.syncPreviewWithEditor(self)    
+    updatePropertyHTML()
+    updatePropertyDocumentHeight()
   }
   
+  func updatePropertyHTML()
+  {
+    self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
+    {
+      (data, error) in
+
+      if let html = data as? String
+      {
+        self._html = html
+      }
+      else
+      {
+        Log.warn("Did not set _html")
+        dump(error)
+      }
+    }
+  }
+  
+  func updatePropertyDocumentHeight()
+  {
+    self.evaluateJavaScript("document.body.scrollHeight")
+    {
+      (output, error) in
+      
+      if let h = output as? Int
+      {
+        self._documentHeight = h
+        Log.info("PreviewView documentHeight is \(h)")
+      }
+    }
+  }
+  
+  func scrollToVerticalPoint(_ y:Int)
+  {
+    let js = "window.scrollTo(0, \(y))"
+    //NSLog(js)
+    self.evaluateJavaScript(js)
+    {
+      (_, error) in
+      
+      if let _ = error
+      {
+        dump(error)
+      }
+    }
+  }
   
   func update(md: String)
   {
@@ -144,9 +179,7 @@ class PreviewView : WKWebView, WKNavigationDelegate
       return
     }
     
-    
     updating = true
-    self.VC.runBusyIcon(updating)
     let cssName = readDefault(forkey: "previewCss",
                               notFoundReturn: "style.epub.css")
     let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
@@ -159,7 +192,6 @@ class PreviewView : WKWebView, WKNavigationDelegate
         {
           self.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
           self.updating = false
-          self.VC.runBusyIcon(false)
         }
       }
       else
@@ -224,27 +256,6 @@ class PreviewView : WKWebView, WKNavigationDelegate
       }
     }
   }
-  
-  func copyHTML()
-  {
-    self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
-    {
-      (data, error) in
-
-      if let d = data,
-         let html = d as? String
-      {
-        NSPasteboard.general.declareTypes([.string], owner: self)
-        NSPasteboard.general.setString(html, forType: .string)
-      }
-      else
-      {
-        Log.warn("Did not copy HTML")
-        dump(error)
-      }
-    }
-  }
-  
 }
 
 
