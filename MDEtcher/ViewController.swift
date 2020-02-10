@@ -12,11 +12,11 @@ import WebKit
 import CommonSwift
 
 
-class ViewController: NSViewController, WKNavigationDelegate
+class ViewController: NSViewController
 {
   @IBOutlet weak var mainView: NSSplitView!
   @IBOutlet weak var editorView: MarkDownEditorView!
-  @IBOutlet weak var webView: WKWebView!
+  @IBOutlet weak var previewView: PreviewView!
   @IBOutlet weak var busyView: NSImageView!
   
   @IBOutlet weak var editorClipView: NSClipView!
@@ -24,7 +24,6 @@ class ViewController: NSViewController, WKNavigationDelegate
   @IBOutlet weak var outlineSelector: NSPopUpButton!
 
   private var visibleTop:CGFloat = 0.0
-  private var previewManager: PreviewManager!
   
 
   ////////////////////////////////
@@ -33,13 +32,9 @@ class ViewController: NSViewController, WKNavigationDelegate
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
-    editorView.setup(self)
-    previewManager = PreviewManager(self)
-    
-    webView.navigationDelegate = self
-    
     busyView.image = Resource.busyAnimation
+    editorView.setup(self)
+    previewView.setup(self)
     
     // get menu to update accordingly
     // funcking confusing, TODO: Refactor
@@ -57,15 +52,10 @@ class ViewController: NSViewController, WKNavigationDelegate
     }
   }
   
-  // WkWebView didFinish
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
+ 
+  func runBusyIcon(_ run: Bool)
   {
-    self.syncPreviewWithEditor(self)
-    // SHOULD DO? : if the above stmt fail, do below
-//    if let selectedTitleInOutline = self.outlineSelector.selectedItem
-//    {
-//      self.webView.scrollToAnchor(selectedTitleInOutline.title)
-//    }
+    busyView.animates = run
   }
   
   
@@ -102,7 +92,7 @@ class ViewController: NSViewController, WKNavigationDelegate
       editorView.setSelectedRange(r) // move cursor there
       
       // preview view
-      webView.scrollToAnchor(selectedItem.title.lowercased())
+      previewView.scrollToAnchor(selectedItem.title.lowercased())
     }
     else
     {
@@ -117,28 +107,12 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func previewCopyHTML(_ sender: Any)
   {
-    webView.evaluateJavaScript("document.documentElement.outerHTML.toString()")
-    {
-      (data, error) in
-
-      if let d = data,
-         let html = d as? String
-      {
-        NSPasteboard.general.declareTypes([.string], owner: self)
-        NSPasteboard.general.setString(html, forType: .string)
-      }
-      else
-      {
-        Log.warn("Did not copy HTML")
-        dump(error)
-      }
-    }
-    
+    previewView.copyHTML()
   }
   
   @IBAction func previewUpdate(_ sender: Any)
   {
-    previewManager.updatePreview(md: editorView.string)
+    previewView.update(md: editorView.string)
   }
   
   @IBAction func editorFont(_ sender: Any)
@@ -152,10 +126,10 @@ class ViewController: NSViewController, WKNavigationDelegate
     {
       return
     }
-    
-    if let paragraph = editorView.textBlockAtCursor() 
+
+    if let paragraph = editorView.textBlockAtCursor()
     {
-      previewManager.syncWithEditor(atParagraph: paragraph,
+      previewView.syncWithEditor(atParagraph: paragraph,
                                     searchReverse: editorClipView.bounds.minY < visibleTop)
       visibleTop = editorClipView.bounds.minY
     }
@@ -163,10 +137,7 @@ class ViewController: NSViewController, WKNavigationDelegate
   
   @IBAction func printPreview(_ sender: Any)
   {
-    DispatchQueue.global().async
-    {
-      self.previewManager.print()
-    }
+    self.previewView.print()
   }
   
   @IBAction func exportPDF(_ sender: Any)

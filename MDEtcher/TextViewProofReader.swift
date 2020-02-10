@@ -243,16 +243,20 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
       // *string*
       
       // first the range of block of text (var string) in textview
-    
-      //let text = self.textView.textStorage?.string
   
-      guard let r = self.textView.string.range(of: string) else
+      guard let ts = self.textView.textStorage else
+      {
+        Log.warn("rangeOfWordTTSWillSpeak, could not unwrap textView.textStorage")
+        return nil
+      }
+      
+      guard let r = ts.string.range(of: string) else
       {
         Log.warn("rangeOfWordTTSWillSpeak could not find string block in textView")
         return nil
       }
       
-      let nsr = NSRange(r, in: self.textView.string)
+      let nsr = NSRange(r, in: ts.string)
       return NSMakeRange(nsr.location + characterRange.location, characterRange.length)
     }
     

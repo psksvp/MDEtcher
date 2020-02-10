@@ -16,13 +16,18 @@ class Pandoc
   {
     if let (output, err) = OS.spawn([Resource.pandocExecutable] + args, Markdown.runfilters(md))
     {
-      Log.warn("pandoc stderr : \(err)")
+      
       if false == err.trim().isEmpty
       {
         DispatchQueue.main.async
         {
-          WorkPrograssWindowController.shared.show("Pandoc Error")
-          WorkPrograssWindowController.shared.message = err
+          Log.warn("pandoc stderr : \(err)")
+          WorkPrograssWindowController.shared.show("Pandoc Error:")
+          WorkPrograssWindowController.shared.message = """
+                                                        Pandoc Error:\n \(err)
+                                                        ======================
+                                                        \(args.debugDescription)
+                                                        """
           WorkPrograssWindowController.shared.enableDoneButton()
         }
       }
@@ -48,8 +53,13 @@ class Pandoc
         if false == err.isEmpty
         {
           Log.warn("pandoc stderr : \(err)")
+          Log.warn("pandoc was launched witht he following options: \(args.debugDescription)")
           WorkPrograssWindowController.shared.enableDoneButton()
-          WorkPrograssWindowController.shared.message = "Pandoc Error:\n \(err)"
+          WorkPrograssWindowController.shared.message = """
+                                                        Pandoc Error:\n \(err)
+                                                        ======================
+                                                        \(args.debugDescription)
+                                                        """
         }
         else
         {
@@ -84,7 +94,7 @@ class Pandoc
     let asciiMath = markdown.range(of: #"<`(.*?)`>"#,
                               options: .regularExpression) != nil ? ["--include-in-header=\(Resource.asciiMathHTMLPath!)"] : []
     
-    let rscPath = rp == nil ? [] : ["--resource-path=.:\(rp!)"]
+    let rscPath = rp == nil ? [] : ["--resource-path=\(rp!)"]
     
     let args = ["--css=\(cssPath)",
                 "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables+strikeout+backtick_code_blocks+auto_identifiers+citations+example_lists+fancy_lists+header_attributes+yaml_metadata_block",
@@ -93,6 +103,12 @@ class Pandoc
                 "-s",
                 "--metadata", "pagetitle=\"MDPreview\"",
                 "--mathjax=\(Resource.mathJax)"] + scrollPassEnd + mermaid + asciiMath + rscPath
+    return run(markdown, args)
+  }
+  
+  class func toText(markdown: String) -> String?
+  {
+     let args = ["--to=plain"]
     return run(markdown, args)
   }
   

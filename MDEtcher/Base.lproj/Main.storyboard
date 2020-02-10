@@ -369,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                            <font key="NSFont" metaFont="label" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -391,22 +391,6 @@
                                             <connections>
                                                 <action selector="syncPreviewWithEditor:" target="Ady-hI-5gd" id="8ST-40-k4x"/>
                                             </connections>
-                                        </menuItem>
-                                        <menuItem title="Style" id="vUP-Hr-88E">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" id="8fd-0E-N7k">
-                                                <items>
-                                                    <menuItem title="Item 1" id="dnt-RR-Kfp">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 2" id="Ual-EE-QVh">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 3" id="rre-P1-KPR">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -599,15 +583,15 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="426" height="740"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="fjs-75-g2H">
-                                                    <rect key="frame" x="1" y="1" width="424" height="738"/>
+                                                    <rect key="frame" x="1" y="1" width="409" height="738"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="bar" incrementalSearchingEnabled="YES" continuousSpellChecking="YES" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" usesRuler="YES" grammarChecking="YES" smartInsertDelete="YES" id="Wsq-aK-2Hh" customClass="MarkDownEditorView" customModule="MDEtcher" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="424" height="738"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="409" height="738"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="424" height="738"/>
+                                                            <size key="minSize" width="409" height="738"/>
                                                             <size key="maxSize" width="499" height="10000000"/>
                                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -618,7 +602,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="0kb-X5-aPE">
-                                                    <rect key="frame" x="409" y="1" width="16" height="738"/>
+                                                    <rect key="frame" x="410" y="1" width="15" height="738"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -628,7 +612,7 @@
                                         <rect key="frame" x="435" y="0.0" width="419" height="740"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <wkWebView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3f-7l-VuC">
+                                            <wkWebView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3f-7l-VuC" customClass="PreviewView" customModule="MDEtcher" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="412" height="740"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <wkWebViewConfiguration key="configuration">
@@ -688,7 +672,7 @@
                         <outlet property="editorView" destination="Wsq-aK-2Hh" id="4Z6-fK-Tlt"/>
                         <outlet property="mainView" destination="YAg-MX-ZlE" id="wNn-5m-8tJ"/>
                         <outlet property="outlineSelector" destination="yPd-Lc-avo" id="BC9-oJ-YtE"/>
-                        <outlet property="webView" destination="d3f-7l-VuC" id="hIG-On-Kfg"/>
+                        <outlet property="previewView" destination="d3f-7l-VuC" id="hIG-On-Kfg"/>
                     </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

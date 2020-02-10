@@ -16,7 +16,7 @@
 		232558DC23E27D7B003776DD /* images in Resources */ = {isa = PBXBuildFile; fileRef = 232558DB23E27D7B003776DD /* images */; };
 		232558DF23E39EC1003776DD /* css in Resources */ = {isa = PBXBuildFile; fileRef = 232558DD23E39EC0003776DD /* css */; };
 		232558E023E39EC1003776DD /* MathJax in Resources */ = {isa = PBXBuildFile; fileRef = 232558DE23E39EC1003776DD /* MathJax */; };
-		232558E223E3A7C2003776DD /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232558E123E3A7C2003776DD /* PreviewManager.swift */; };
+		232558E223E3A7C2003776DD /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232558E123E3A7C2003776DD /* PreviewView.swift */; };
 		232CE39323E04FE00048EFA4 /* WorkPrograssWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */; };
 		232CE39423E04FE00048EFA4 /* WorkPrograssWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */; };
 		2334449923CF10E2009FDA8F /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334449823CF10E2009FDA8F /* CSVReader.swift */; };
@@ -51,7 +51,7 @@
 		232558DB23E27D7B003776DD /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		232558DD23E39EC0003776DD /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = css; sourceTree = "<group>"; };
 		232558DE23E39EC1003776DD /* MathJax */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MathJax; sourceTree = "<group>"; };
-		232558E123E3A7C2003776DD /* PreviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
+		232558E123E3A7C2003776DD /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkPrograssWindowController.swift; sourceTree = "<group>"; };
 		232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkPrograssWindowController.xib; sourceTree = "<group>"; };
 		2334449823CF10E2009FDA8F /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 				232CE39123E04FE00048EFA4 /* WorkPrograssWindowController.swift */,
 				232CE39223E04FE00048EFA4 /* WorkPrograssWindowController.xib */,
 				232558D723E27A25003776DD /* Resource.swift */,
-				232558E123E3A7C2003776DD /* PreviewManager.swift */,
+				232558E123E3A7C2003776DD /* PreviewView.swift */,
 				23194FE023E7A58100972F2E /* String+lookup.swift */,
 				231F797523E7D19C00E623F4 /* FileSelectorController.swift */,
 				231F797623E7D19C00E623F4 /* FileSelectorController.xib */,
@@ -249,7 +249,7 @@
 				239B727823C335AB008D719C /* ViewController.swift in Sources */,
 				239B727623C335AB008D719C /* AppDelegate.swift in Sources */,
 				239B727A23C335AB008D719C /* Document.swift in Sources */,
-				232558E223E3A7C2003776DD /* PreviewManager.swift in Sources */,
+				232558E223E3A7C2003776DD /* PreviewView.swift in Sources */,
 				23B3AF2523CC8B7A0038F8A2 /* Utils.swift in Sources */,
 				231B180223CA00F70079506C /* Markdown.swift in Sources */,
 				23194FE123E7A58100972F2E /* String+lookup.swift in Sources */,
@@ -398,7 +398,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = MK7G95UB6E;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -424,7 +424,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = MK7G95UB6E;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
