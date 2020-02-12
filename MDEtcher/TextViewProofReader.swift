@@ -158,6 +158,7 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
   private var synthesizer = newSpeechSynthesizer(withVoice: "Samantha")
   private let textView: NSTextView
   private var writingToFile = false
+  private var wholeText = ""
   
   var text:String? = nil
   
@@ -187,6 +188,7 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
     
     if let s = text
     {
+      self.wholeText = String(textView.string)
       self.synthesizer.delegate = self
       if let voice = newVoice(withName: Preference.proofReadVoiceName)
       {
@@ -244,19 +246,19 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
       
       // first the range of block of text (var string) in textview
   
-      guard let ts = self.textView.textStorage else
-      {
-        Log.warn("rangeOfWordTTSWillSpeak, could not unwrap textView.textStorage")
-        return nil
-      }
+//      guard let ts = self.textView.textStorage else
+//      {
+//        Log.warn("rangeOfWordTTSWillSpeak, could not unwrap textView.textStorage")
+//        return nil
+//      }
       
-      guard let r = ts.string.range(of: string) else
+      guard let r = self.wholeText.range(of: string) else
       {
         Log.warn("rangeOfWordTTSWillSpeak could not find string block in textView")
         return nil
       }
       
-      let nsr = NSRange(r, in: ts.string)
+      let nsr = NSRange(r, in: self.wholeText)
       return NSMakeRange(nsr.location + characterRange.location, characterRange.length)
     }
     

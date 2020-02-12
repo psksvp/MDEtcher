@@ -64,7 +64,7 @@ extension WKWebView
 /////////////////////////////////////////////////////////
 class PreviewView : WKWebView, WKNavigationDelegate
 {
-  private var visiblePosY = 0
+  private var pageYOffset = 0
   private var VC: ViewController!
   private var updating: Bool = false
   {
@@ -112,10 +112,11 @@ class PreviewView : WKWebView, WKNavigationDelegate
   // WkWebView didFinish
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
   {
-    Log.info("did finish loading preview")
+    //Log.info("did finish loading preview")
     self.VC.syncPreviewWithEditor(self)    
     updatePropertyHTML()
     updatePropertyDocumentHeight()
+    scrollToVerticalPoint(pageYOffset)
   }
   
   func updatePropertyHTML()
@@ -145,7 +146,21 @@ class PreviewView : WKWebView, WKNavigationDelegate
       if let h = output as? Int
       {
         self._documentHeight = h
-        Log.info("PreviewView documentHeight is \(h)")
+        //Log.info("PreviewView documentHeight is \(h)")
+      }
+    }
+  }
+  
+  func updatePropertyPageYOffset()
+  {
+    self.evaluateJavaScript("window.pageYOffset")
+    {
+      (output, error) in
+      
+      if let h = output as? Int
+      {
+        self.pageYOffset = h
+        //Log.info("PreviewView documentHeight is \(h)")
       }
     }
   }
@@ -153,7 +168,6 @@ class PreviewView : WKWebView, WKNavigationDelegate
   func scrollToVerticalPoint(_ y:Int)
   {
     let js = "window.scrollTo(0, \(y))"
-    //NSLog(js)
     self.evaluateJavaScript(js)
     {
       (_, error) in
@@ -183,7 +197,7 @@ class PreviewView : WKWebView, WKNavigationDelegate
     let cssName = readDefault(forkey: "previewCss",
                               notFoundReturn: "style.epub.css")
     let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
-    
+    self.updatePropertyPageYOffset()
     DispatchQueue.global(qos: .background).async
     {
       if let html = Pandoc.toHTML(markdown: md, css: cssName, filesResourcePath: rscPath)
@@ -202,7 +216,7 @@ class PreviewView : WKWebView, WKNavigationDelegate
   }
     
   
-  func syncWithEditor(atParagraph paragraph: String, searchReverse sr: Bool)
+  func syncWithEditor(atParagraph paragraph: String, searchReverse sr: Bool = false)
   {
     func clean(_ s: String, _ lengthThreshold: Int = 50) -> String
     {

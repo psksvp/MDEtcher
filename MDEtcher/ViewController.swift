@@ -23,9 +23,6 @@ class ViewController: NSViewController
   @IBOutlet weak var cssSelector: NSComboBox!
   @IBOutlet weak var outlineSelector: NSPopUpButton!
 
-  private var visibleTop:CGFloat = 0.0
-  
-
   ////////////////////////////////
   /// NSViewController
   //////////////////////////////
@@ -39,9 +36,6 @@ class ViewController: NSViewController
     // get menu to update accordingly
     // funcking confusing, TODO: Refactor
     Preference.scrollPreview = Preference.scrollPreview
-    
-    // init clipview top Y pos to detect scroll up or down
-    visibleTop = editorClipView.bounds.minY
     
     self.editorClipView.postsBoundsChangedNotifications = true
     NotificationCenter.default.addObserver(self,
@@ -78,15 +72,18 @@ class ViewController: NSViewController
   ///
   @objc func editorVisibleViewChanged(_ :Notification)
   {
-    // sync scrolling
-    guard previewView.documentHeight > 0 else {return}
-
-    let h1 = Float(editorClipView.documentRect.height)
-    let h2 = Float(previewView.documentHeight)
-    let p1 = Float(editorClipView.bounds.origin.y)
-    let p2 = (h2 * p1) / h1
-    print(p1, p2)
-    previewView.scrollToVerticalPoint(Int(round(p2)))
+    if Preference.scrollPreview
+    {
+      // sync scrolling
+      guard previewView.documentHeight > 0 else {return}
+  
+      let h1 = Float(editorClipView.documentRect.height)
+      let h2 = Float(previewView.documentHeight)
+      let p1 = Float(editorClipView.bounds.origin.y)
+      let p2 = (h2 * p1) / h1
+      //print(p1, p2)
+      previewView.scrollToVerticalPoint(Int(round(p2)))
+    }
   }
   
   
@@ -152,9 +149,7 @@ class ViewController: NSViewController
 
     if let paragraph = editorView.textBlockAtCursor()
     {
-      previewView.syncWithEditor(atParagraph: paragraph,
-                                    searchReverse: editorClipView.bounds.minY < visibleTop)
-      visibleTop = editorClipView.bounds.minY
+      previewView.syncWithEditor(atParagraph: paragraph)
     }
   }
   

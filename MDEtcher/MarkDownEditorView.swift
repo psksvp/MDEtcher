@@ -74,6 +74,10 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   func setup(_ vc: ViewController)
   {
     VC = vc
+    
+    let draggedType = [NSPasteboard.PasteboardType.fileURL,
+                       NSPasteboard.PasteboardType.URL]
+    registerForDraggedTypes(draggedType)
     setupSyntaxHighlighter()
     setupOutline()
   }
@@ -236,7 +240,69 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
        }
     }
   }
+  
+  override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation
+  {
+    NSLog(sender.description)
+    
+    return .copy
+  }
+  
+  override func performDragOperation(_ sender: NSDraggingInfo) -> Bool
+  {
+    func localImagePath(_ url: URL) -> String?
+    {
+      guard url.isFileURL else
+      {
+        Log.error("\(url) is not a fileURL")
+        return nil
+      }
+      
+      let images = ["jpg", "jpeg", "png", "gif"]
+      guard images.contains(url.pathExtension.lowercased()) else
+      {
+        Log.error("file \(url) is not jpg, jpeg, png or gif")
+        return nil
+      }
+      
+      // make copy?
+      if let docURL = VC.documentURL,
+         docURL.deletingLastPathComponent() != url.deletingLastPathComponent()
+      {
+        let fileName = url.lastPathComponent
+        let dstURL = docURL.deletingLastPathComponent().appendingPathComponent(fileName)
+        try! FileManager.default.copyItem(at: url, to: dstURL)
+        //try! FileManager.default.replaceItemAt(dstURL, withItemAt: url)
+        return dstURL.relativePath(from: docURL.deletingLastPathComponent())
+      }
+      else
+      {
+        return url.path
+      }
+    }
+    
+    
+    if let url = sender.draggingPasteboard.readObjects(forClasses: [NSURL.self],
+                                                           options: nil)!.first as? URL,
+       let localPath = localImagePath(url)
+    {
+      let insertionPt = self.selectedRanges[0].rangeValue
+      let urlText = "![\(url.lastPathComponent)](\(localPath))"
+      self.replaceCharacters(in: insertionPt, with: urlText)
+    }
+    
+    return true
+  }
 }// MarkDownEditorView
 
 
 
+
+//      ulrs.forEach
+//      {
+//        // Do something with the file paths.
+//        if let url = $0 as? URL
+//        {
+//          print(url.path)
+//        }
+//      }

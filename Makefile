@@ -28,6 +28,9 @@ zip: release
 	mv ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app.zip .
 	
 clean:
-	rm -rf ./DerivedData
+	rm -rf ./DerivedData/MDEtcher/Build
 	rm -f MDEtcher.app.zip
+	
+run: runDebug
+	
 	
