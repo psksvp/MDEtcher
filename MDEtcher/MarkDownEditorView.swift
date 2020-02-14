@@ -23,7 +23,7 @@ extension NSTextView
     
     if self.string[pr].trim().count > 0
     {
-      return String(self.string[pr]).trim()
+      return String(self.string[pr])
     }
     else
     {
@@ -266,17 +266,43 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
       }
       
       // make copy?
-      if let docURL = VC.documentURL,
-         docURL.deletingLastPathComponent() != url.deletingLastPathComponent()
+      if let docURL = VC.documentURL
       {
-        let fileName = url.lastPathComponent
-        let dstURL = docURL.deletingLastPathComponent().appendingPathComponent(fileName)
-        try! FileManager.default.copyItem(at: url, to: dstURL)
-        //try! FileManager.default.replaceItemAt(dstURL, withItemAt: url)
-        return dstURL.relativePath(from: docURL.deletingLastPathComponent())
+        if directoryPathOfFileURL(docURL) == directoryPathOfFileURL(url)
+        {
+          return url.lastPathComponent
+        }
+        else
+        {
+          let fileName = url.lastPathComponent
+          
+          if false == fileExists(fileName, inDirectory: directoryURL(ofFileURL: docURL))
+          {
+            let a = NSAlert()
+            a.messageText = "file  \(fileName) is not in the same directory as the document file.\n\nCopy it in?"
+            a.alertStyle = .informational
+            a.addButton(withTitle: "OK")
+            a.addButton(withTitle: "Cancel")
+            if .alertFirstButtonReturn == a.runModal()
+            {
+              let dstURL = docURL.deletingLastPathComponent().appendingPathComponent(fileName)
+              Log.info("going to copy \(fileName) into \(directoryPathOfFileURL(docURL))")
+              try? FileManager.default.copyItem(at: url, to: dstURL)
+              return dstURL.relativePath(from: directoryURL(ofFileURL: docURL))
+            }
+            
+            return nil
+          }
+          else
+          {
+            // file is in subdir of the document file
+            // so just create rel path to it.
+            return url.relativePath(from: docURL.deletingLastPathComponent())
+          }
+        }
       }
       else
-      {
+      { // file has not been saved
         return url.path
       }
     }
@@ -295,6 +321,9 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   }
 }// MarkDownEditorView
 
+
+
+  
 
 
 

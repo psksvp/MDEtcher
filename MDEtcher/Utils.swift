@@ -55,4 +55,36 @@ func directoryPathOfFileURL(_ url: URL) -> String
   return url.deletingLastPathComponent().path
 }
 
+func directoryURL(ofFileURL url: URL) -> URL
+{
+  return url.deletingLastPathComponent()
+}
 
+
+func fileExists(_ name: String, inDirectory dir: URL) -> Bool
+{
+  do
+  {
+    let resourceKeys : [URLResourceKey] = [.creationDateKey, .isDirectoryKey]
+    let enumerator = FileManager.default.enumerator(at: dir,
+                            includingPropertiesForKeys: resourceKeys,
+                                              options: [.skipsHiddenFiles])!
+  
+    for case let fileURL as URL in enumerator
+    {
+      let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+      //print(fileURL.path, resourceValues.creationDate!, resourceValues.isDirectory!)
+      if false == resourceValues.isDirectory! &&
+         fileURL.lastPathComponent == name
+      {
+        return true
+      }
+    }
+  }
+  catch
+  {
+    Log.error(error.localizedDescription)
+  }
+  
+  return false
+}
