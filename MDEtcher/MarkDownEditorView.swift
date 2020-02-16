@@ -121,7 +121,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
       self.translatesAutoresizingMaskIntoConstraints = true
       
       editorThemeMenu?.removeAllItems()
-      for t in highlightedCS.highlightr.availableThemes()
+      for t in highlightedCS.highlightr.availableThemes().sorted()
       {
         let i = NSMenuItem(title: t, action: #selector(editorThemeSelected), keyEquivalent: "")
         editorThemeMenu?.addItem(i)

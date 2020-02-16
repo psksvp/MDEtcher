@@ -7,10 +7,14 @@ push:
 	git push origin
 	git push gitlab
 	
-debug:
+versioning:
+	/bin/sh autoBuildNo.sh 
+	swift mkVersion.swift	
+	
+debug: versioning
 	 xcodebuild -scheme MDEtcher build
 	
-release:
+release: versioning
 	 xcodebuild -scheme MDEtcher -configuration Release build 	
 
 copyApp: release

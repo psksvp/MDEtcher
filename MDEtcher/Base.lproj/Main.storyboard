@@ -369,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="label" size="11"/>
+                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -382,12 +382,14 @@
                                                 <action selector="previewUpdate:" target="Ady-hI-5gd" id="1hx-cH-f6c"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Copy HTML" keyEquivalent="y" id="jKC-xI-rkN">
+                                        <menuItem title="Copy HTML" id="jKC-xI-rkN">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="previewCopyHTML:" target="Ady-hI-5gd" id="bI5-KV-Dg5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Sync With Editor" keyEquivalent="i" id="yOA-NO-jiV">
+                                        <menuItem title="Sync With Editor" id="yOA-NO-jiV">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="syncPreviewWithEditor:" target="Ady-hI-5gd" id="8ST-40-k4x"/>
                                             </connections>
@@ -411,22 +413,6 @@
                                                 <action selector="editorScrollingPreview:" target="Ady-hI-5gd" id="gRZ-Cu-aWN"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Theme" id="pQi-f3-C2e">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" id="Cac-k0-x4Y">
-                                                <items>
-                                                    <menuItem title="Item 1" id="wCH-lC-qOa">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 2" id="zXu-h9-Ic3">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 3" id="UDg-CQ-V4U">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
                                         <menuItem title="Format Text" id="OQy-rh-qFP">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Format Text" id="jAr-gR-qFn">
@@ -446,25 +432,41 @@
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="CKU-dz-QWh"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Underline" keyEquivalent="7" id="U7y-3z-YHj">
+                                                    <menuItem title="Underline" keyEquivalent="u" id="U7y-3z-YHj">
                                                         <connections>
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="xeH-4w-zw0"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Emphasis" keyEquivalent="8" id="aFN-Pn-NAM">
+                                                    <menuItem title="Emphasis" keyEquivalent="i" id="aFN-Pn-NAM">
                                                         <connections>
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="KAf-LE-oaM"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Strong" keyEquivalent="9" id="J3f-fO-zTH">
+                                                    <menuItem title="Strong" keyEquivalent="b" id="J3f-fO-zTH">
                                                         <connections>
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="qCm-8S-nYS"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Strike out" keyEquivalent="0" id="qXh-uu-0pB">
+                                                    <menuItem title="Strike out" keyEquivalent="-" id="qXh-uu-0pB">
                                                         <connections>
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="bKP-dX-hLA"/>
                                                         </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Theme" id="pQi-f3-C2e">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" id="Cac-k0-x4Y">
+                                                <items>
+                                                    <menuItem title="Item 1" id="wCH-lC-qOa">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Item 2" id="zXu-h9-Ic3">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Item 3" id="UDg-CQ-V4U">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                 </items>
                                             </menu>
