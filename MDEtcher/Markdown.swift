@@ -64,7 +64,7 @@ class Markdown
   // filters
   class func runfilters(_ md: String) -> String
   {
-    return runFilters(filters: [FilterAsciiMath(), FilterMermaid(), FilterTableCSV()],
+    return runFilters(filters: [FilterAsciiMath(), FilterUnderlineText(), FilterMermaid(), FilterTableCSV()],
                       onMarkdown: md)
   }
   
@@ -112,6 +112,19 @@ class Markdown
     func run(_ block: String) -> String?
     {
       return "`` `\(block.trim())` ``"
+    }
+  }
+  
+  class FilterUnderlineText: MarkdownFilter
+  {
+    var targetPattern: String
+    {
+      get { return #"=(.*?)="# }
+    }
+    
+    func run(_ block: String) -> String?
+    {
+      return "<u>\(block)</u>"
     }
   }
   
