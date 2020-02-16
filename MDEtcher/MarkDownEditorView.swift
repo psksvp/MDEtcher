@@ -336,6 +336,22 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   func format(_ type: String)
   {
+    func textAttributeOf(_ s: String) -> String
+    {
+      switch type.lowercased()
+      {
+        case "$mathjax$"   : return "$\(s)$"
+        case "$$mathjax$$" : return "$$\(s)$$"
+        case "asciimath"   : return "<`\(s)`>"
+        case "underline"   : return "=\(s)="
+        case "emphasis"    : return "_\(s)_"
+        case "strong"      : return "**\(s)**"
+        case "strike out"  : return "~~\(s)~~"
+        
+        default            : return s
+      }
+    }
+    
     let selected = self.selectedRange()
     guard let text = self.string.substring(with: selected) else
     {
@@ -343,27 +359,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
       return
     }
     
-    switch type.lowercased()
-    {
-      case "$mathjax$"   : self.replaceCharacters(in: selected, with: "$\(text)$")
-      case "$$mathjax$$" : self.replaceCharacters(in: selected, with: "$$\(text)$$")
-      
-      default : Log.warn("unknown format type \(type)")
-    }
+    self.replaceCharacters(in: selected, with: textAttributeOf(String(text)))
   }
 }// MarkDownEditorView
 
-
-
-  
-
-
-
-//      ulrs.forEach
-//      {
-//        // Do something with the file paths.
-//        if let url = $0 as? URL
-//        {
-//          print(url.path)
-//        }
-//      }
