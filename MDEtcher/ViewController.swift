@@ -122,6 +122,12 @@ class ViewController: NSViewController
   /// Menus actions
   //////////////////////////////////////
   
+  @IBAction func formatText(_ sender: NSMenuItem)
+  {
+    Log.info("action from \(sender.title)")
+    self.editorView.format(sender.title)
+  }
+  
   @IBAction func previewCopyHTML(_ sender: Any)
   {
     //previewView.copyHTML()
@@ -258,6 +264,8 @@ class ViewController: NSViewController
       }
     }
   }
+  
+  
 }
 
 

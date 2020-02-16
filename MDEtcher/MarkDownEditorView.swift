@@ -216,7 +216,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
        {
          DispatchQueue.main.async
          {
-          let selectedTitle = self.VC.outlineSelector.selectedItem?.title
+           let selectedTitle = self.VC.outlineSelector.selectedItem?.title
            
            self.VC.outlineSelector.removeAllItems()
            self.VC.outlineSelector.addItems(withTitles: ol)
@@ -225,7 +225,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
               title != "Outline"
            {
              self.VC.outlineSelector.selectItem(withTitle: title)
-            Log.info("select outline at title \(title)")
+             Log.info("select outline at title \(title)")
            }
            else
            {
@@ -275,7 +275,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
         else
         {
           let fileName = url.lastPathComponent
-          
+          // it's a mess, refact this shit
           if false == fileExists(fileName, inDirectory: directoryURL(ofFileURL: docURL))
           {
             let a = NSAlert()
@@ -283,12 +283,26 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
             a.alertStyle = .informational
             a.addButton(withTitle: "OK")
             a.addButton(withTitle: "Cancel")
+            a.showsSuppressionButton = true
+            a.suppressionButton?.title = "Do this action next time."
             if .alertFirstButtonReturn == a.runModal()
             {
+              if a.suppressionButton?.state == .on
+              {
+                Preference.askBeforeCopyImage = true
+              }
+              
               let dstURL = docURL.deletingLastPathComponent().appendingPathComponent(fileName)
               Log.info("going to copy \(fileName) into \(directoryPathOfFileURL(docURL))")
               try? FileManager.default.copyItem(at: url, to: dstURL)
               return dstURL.relativePath(from: directoryURL(ofFileURL: docURL))
+            }
+            else
+            {
+              if a.suppressionButton?.state == .off
+              {
+                Preference.askBeforeCopyImage = false
+              }
             }
             
             return nil
@@ -318,6 +332,24 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     }
     
     return true
+  }
+  
+  func format(_ type: String)
+  {
+    let selected = self.selectedRange()
+    guard let text = self.string.substring(with: selected) else
+    {
+      Log.warn("nothing selected")
+      return
+    }
+    
+    switch type.lowercased()
+    {
+      case "$mathjax$"   : self.replaceCharacters(in: selected, with: "$\(text)$")
+      case "$$mathjax$$" : self.replaceCharacters(in: selected, with: "$$\(text)$$")
+      
+      default : Log.warn("unknown format type \(type)")
+    }
   }
 }// MarkDownEditorView
 

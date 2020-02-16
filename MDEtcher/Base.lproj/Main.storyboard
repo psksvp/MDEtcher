@@ -369,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="label" size="11"/>
+                                            <font key="NSFont" metaFont="menu" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -423,6 +423,23 @@
                                                     </menuItem>
                                                     <menuItem title="Item 3" id="UDg-CQ-V4U">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Format Text" id="OQy-rh-qFP">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Format Text" id="jAr-gR-qFn">
+                                                <items>
+                                                    <menuItem title="$MathJax$" keyEquivalent="4" id="SMP-8V-wJQ">
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="mTx-aP-vFc"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="$$MathJax$$" keyEquivalent="5" id="9tb-5D-uP5">
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="eTd-OP-nlb"/>
+                                                        </connections>
                                                     </menuItem>
                                                 </items>
                                             </menu>
@@ -583,15 +600,15 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="426" height="740"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="fjs-75-g2H">
-                                                    <rect key="frame" x="1" y="1" width="409" height="738"/>
+                                                    <rect key="frame" x="1" y="1" width="424" height="738"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="bar" incrementalSearchingEnabled="YES" continuousSpellChecking="YES" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" usesRuler="YES" grammarChecking="YES" smartInsertDelete="YES" id="Wsq-aK-2Hh" customClass="MarkDownEditorView" customModule="MDEtcher" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="409" height="738"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="424" height="738"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="409" height="738"/>
+                                                            <size key="minSize" width="424" height="738"/>
                                                             <size key="maxSize" width="499" height="10000000"/>
                                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         </textView>
@@ -602,7 +619,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="0kb-X5-aPE">
-                                                    <rect key="frame" x="410" y="1" width="15" height="738"/>
+                                                    <rect key="frame" x="409" y="1" width="16" height="738"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -629,7 +646,7 @@
                                 </holdingPriorities>
                             </splitView>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yPd-Lc-avo">
-                                <rect key="frame" x="7" y="751" width="383" height="25"/>
+                                <rect key="frame" x="7" y="751" width="382" height="25"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" arrowPosition="arrowAtCenter" selectedItem="RZ6-bx-sXB" id="XFt-cH-SDh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

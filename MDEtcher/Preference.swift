@@ -13,6 +13,14 @@ import CommonSwift
 
 struct Preference
 {
+  static func reset()
+  {
+    Preference.scrollPreview = true
+    Preference.proofReadVoiceName = "Samantha"
+    Preference.proofReadVoiceRate = Float(160)
+    Preference.editorOnLeft = true
+  }
+  
   static var scrollPreview: Bool
   {
     get
@@ -127,6 +135,15 @@ struct Preference
       UserDefaults.standard.set(newValue.fontName, forKey: "editorFontFace")
       UserDefaults.standard.set("\(newValue.pointSize)", forKey: "editorFontSize")
       Log.info("set user default editor font to \(newValue.fontName), \(newValue.pointSize)")
+    }
+  }
+  
+  static var askBeforeCopyImage: Bool
+  {
+    get {readDefault(forkey: "askBeforeCopyImage", notFoundReturn: "t") == "t" ? true : false}
+    set
+    {
+      UserDefaults.standard.set(newValue ? "t" : "f", forKey: "askBeforeCopyImage")
     }
   }
 }
