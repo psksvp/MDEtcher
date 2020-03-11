@@ -79,5 +79,5 @@ let plist = """
 </dict>
 </plist>
 """
-
+print("Building build number -> \(buildNumber)")
 try? plist.write(toFile: "./MDEtcher/Info.plist", atomically: true, encoding: .utf8)

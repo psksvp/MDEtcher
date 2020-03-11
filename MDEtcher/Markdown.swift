@@ -17,7 +17,7 @@ protocol MarkdownFilter
 
 
 class Markdown
-{
+{  
   class func headerOutline(_ md: String) -> [String]?
   {
     func headers() -> [Substring]
@@ -55,9 +55,10 @@ class Markdown
     
     let ol = headers().map
     {
-      removeHash(String($0))
+      //removeHash(String($0))
+      String($0)
     }
-    
+
     return ol.count > 0 ? ol : nil
   }
   

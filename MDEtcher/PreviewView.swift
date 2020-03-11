@@ -11,88 +11,79 @@ import AppKit
 import CommonSwift
 import WebKit
 
-extension WKWebView
-{
-  func scrollToAnchor(_ s:String) -> Void
-  {
-    let anchor = "\"#\(s.lowercased().trim().replacingOccurrences(of: " ", with: "-"))\""
-    let js = "location.hash = \(anchor);"
-    //Log.info("about to eval javascript \(js)")
-    self.evaluateJavaScript(js)
-    {
-      (sender, error) in
-      dump(error)
-    }
-  }
-  
-  func scrollToParagrah(withSubString s: String, searchReverse: Bool = false) -> Void
-  {
-    let loopHead = searchReverse ? "for(var i = x.length - 1; i >= 0; i--)" :
-                                   "for(var i = 0; i < x.length; i++)"
-    let js = """
-    var bgColor = document.body.style.backgroundColor;
-    var x = document.querySelectorAll("p, q, li, h1, h2, h3");
-    var s = \(s)
-    \(loopHead)
-    {
-      if(x[i].textContent.indexOf(s) >= 0)
-      {
-        x[i].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
-        x[i].style.backgroundColor = "Azure";
-        break;
-      }
-      else
-      {
-        x[i].style.backgroundColor = bgColor;
-      }
-    }
-    """
-    //Log.info("about to eval javascript\n\(js)")
-    self.evaluateJavaScript(js)
-    {
-      (sender, error) in
-      if let _ = error
-      {
-        dump(error)
-      }
-    }
-  }
-}
 
 /////////////////////////////////////////////////////////
 ///
 /////////////////////////////////////////////////////////
 class PreviewView : WKWebView, WKNavigationDelegate
 {
-  private var pageYOffset = 0
   private var VC: ViewController!
+  private var savedDocumentHeight = 0
+  private var savedPageYOffset = 0
   private var updating: Bool = false
   {
     didSet { VC.runBusyIcon(updating) }
   }
   
-  private var _html: String = "<html><body></body></html>"
-  private var _documentHeight = 0
+  var pageYOffset: Int
+  {
+    get {return savedPageYOffset}
+  }
   
   var documentHeight: Int
   {
-    get
-    {
-      updatePropertyDocumentHeight()
-      return _documentHeight
-    }
+    get { return savedDocumentHeight }
   }
   
   var html: String
   {
     get
     {
-      return _html
+      if let s = self.syncEvaluateJavaScript("document.documentElement.outerHTML.toString()") as? String
+      {
+        return s
+      }
+      else
+      {
+        return "<html><body></body></html>"
+      }
     }
     
     set
     {
       self.loadHTMLString(newValue, baseURL: Bundle.main.resourceURL)
+    }
+  }
+  
+  private func updatePageYOffset()
+  {
+    self.evaluateJavaScript("window.pageYOffset")
+    {
+      result, error in
+      if let y = result as? Int
+      {
+        self.savedPageYOffset = y
+      }
+      else
+      {
+        dump(error)
+      }
+    }
+  }
+  
+  private func updateDocumentHeight()
+  {
+    self.evaluateJavaScript("document.body.scrollHeight")
+    {
+      result, error in
+      if let h = result as? Int
+      {
+        self.savedDocumentHeight = h
+      }
+      else
+      {
+        dump(error)
+      }
     }
   }
   
@@ -113,55 +104,18 @@ class PreviewView : WKWebView, WKNavigationDelegate
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
   {
     //Log.info("did finish loading preview")
-    self.VC.syncPreviewWithEditor(self)    
-    updatePropertyHTML()
-    updatePropertyDocumentHeight()
+    updateDocumentHeight()
+    self.VC.syncPreviewWithEditor(self)
     scrollToVerticalPoint(pageYOffset)
+    Log.info("webView didFinish rendering")
   }
   
-  func updatePropertyHTML()
+  override func viewDidEndLiveResize()
   {
-    self.evaluateJavaScript("document.documentElement.outerHTML.toString()")
+    super.viewDidEndLiveResize()
+    DispatchQueue.main.async
     {
-      (data, error) in
-
-      if let html = data as? String
-      {
-        self._html = html
-      }
-      else
-      {
-        Log.warn("Did not set _html")
-        dump(error)
-      }
-    }
-  }
-  
-  func updatePropertyDocumentHeight()
-  {
-    self.evaluateJavaScript("document.body.scrollHeight")
-    {
-      (output, error) in
-      
-      if let h = output as? Int
-      {
-        self._documentHeight = h
-        //Log.info("PreviewView documentHeight is \(h)")
-      }
-    }
-  }
-  
-  func updatePropertyPageYOffset()
-  {
-    self.evaluateJavaScript("window.pageYOffset")
-    {
-      (output, error) in
-      
-      if let h = output as? Int
-      {
-        self.pageYOffset = h
-        //Log.info("PreviewView documentHeight is \(h)")
-      }
+      self.updateDocumentHeight()
     }
   }
   
@@ -193,11 +147,11 @@ class PreviewView : WKWebView, WKNavigationDelegate
       return
     }
     
+    updatePageYOffset()
     updating = true
     let cssName = readDefault(forkey: "previewCss",
                               notFoundReturn: "style.epub.css")
     let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
-    self.updatePropertyPageYOffset()
     DispatchQueue.global(qos: .background).async
     {
       if let html = Pandoc.toHTML(markdown: md, css: cssName, filesResourcePath: rscPath)
@@ -246,30 +200,34 @@ class PreviewView : WKWebView, WKNavigationDelegate
   {    
     let rscPath: String? = VC.documentURL != nil ? directoryPathOfFileURL(VC.documentURL!) : nil
 
-    if let html = Pandoc.toHTML(markdown: VC.editorView.string,
-                                css: Preference.previewCSS,
-                                filesResourcePath: rscPath,
-                                previewing: false)
+    DispatchQueue.global().async
     {
-      let path = "\(FileManager.default.temporaryDirectory.path)/p.html"
-      FS.writeText(inString: html, toPath: path)
-      if FileManager.default.fileExists(atPath: path)
+      if let html = Pandoc.toHTML(markdown: self.VC.editorView.string,
+                                  css: Preference.previewCSS,
+                                  filesResourcePath: rscPath,
+                                  previewing: false)
       {
-        OS.spawn(["/usr/bin/open", "-a", "Safari.app", path], nil)
-      }
-      else
-      {
-        DispatchQueue.main.async
+        let path = "\(FileManager.default.temporaryDirectory.path)/p.html"
+        FS.writeText(inString: html, toPath: path)
+        if FileManager.default.fileExists(atPath: path)
         {
-          let a = NSAlert()
-          a.messageText = "Print Fail, fail to write to\n\(path)"
-          a.alertStyle = .warning
-          a.addButton(withTitle: "OK")
-          a.beginSheetModal(for: self.VC.view.window!)
+          OS.spawn(["/usr/bin/open", "-a", "Safari.app", path], nil)
+        }
+        else
+        {
+          DispatchQueue.main.async
+          {
+            let a = NSAlert()
+            a.messageText = "Print Fail, fail to write to\n\(path)"
+            a.alertStyle = .warning
+            a.addButton(withTitle: "OK")
+            a.beginSheetModal(for: self.VC.view.window!)
+          }
         }
       }
     }
-  }
+  } // print()
+  
 }
 
 

@@ -369,7 +369,7 @@
                                 <attributedString key="attributedTitle">
                                     <fragment content="Preview">
                                         <attributes>
-                                            <font key="NSFont" metaFont="controlContent" size="11"/>
+                                            <font key="NSFont" metaFont="message" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -406,6 +406,9 @@
                                             <connections>
                                                 <action selector="editorFont:" target="Ady-hI-5gd" id="6Vf-Jo-mow"/>
                                             </connections>
+                                        </menuItem>
+                                        <menuItem title="Copy Markdown" id="whW-Ty-Xee">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem title="Scroll Preview" id="70h-ao-X2m">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -452,6 +455,29 @@
                                                             <action selector="formatText:" target="Ady-hI-5gd" id="bKP-dX-hLA"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem title="Quote" id="bWO-zl-WMg">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="6jR-p2-Zkw"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="email" id="Gq9-pR-ddh">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="Gtq-Kv-GO1"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="URL" id="v2O-t5-Vfp">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="F5i-yF-qGx"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Comment" keyEquivalent="/" id="Lq6-IN-HBe">
+                                                        <connections>
+                                                            <action selector="formatText:" target="Ady-hI-5gd" id="L3B-lg-UwE"/>
+                                                        </connections>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                         </menuItem>
@@ -478,7 +504,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="ProofReader" id="YWb-rH-ALR">
                                     <items>
-                                        <menuItem title="Start" keyEquivalent="u" id="eng-BL-kXY">
+                                        <menuItem title="Start" keyEquivalent="t" id="eng-BL-kXY">
                                             <connections>
                                                 <action selector="proofReaderAction:" target="Ady-hI-5gd" id="LVU-Zl-QOS"/>
                                             </connections>

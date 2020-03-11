@@ -23,6 +23,8 @@ extension NSTextView
     
     if self.string[pr].trim().count > 0
     {
+      // we don't trim overhere. Just return exactly as
+      // user typed, unless, text2speech will crash
       return String(self.string[pr])
     }
     else
@@ -250,6 +252,39 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
   
   override func performDragOperation(_ sender: NSDraggingInfo) -> Bool
   {
+    func localCopy(_ url: URL, baseDir: URL) -> String?
+    {
+      let fileName = url.lastPathComponent
+      let a = NSAlert()
+      a.messageText = "file  \(fileName) is not in the same directory as the document file.\n\nCopy it in?"
+      a.alertStyle = .informational
+      a.addButton(withTitle: "OK")
+      a.addButton(withTitle: "Cancel")
+      a.showsSuppressionButton = true
+      a.suppressionButton?.title = "Do this action next time."
+      if .alertFirstButtonReturn == a.runModal()
+      {
+        if a.suppressionButton?.state == .on
+        {
+          Preference.askBeforeCopyImage = true
+        }
+        
+        let dstURL = baseDir.appendingPathComponent(fileName)
+        Log.info("going to copy \(fileName) into \(baseDir)")
+        try? FileManager.default.copyItem(at: url, to: dstURL)
+        return dstURL.relativePath(from: baseDir)
+      }
+      else
+      {
+        if a.suppressionButton?.state == .off
+        {
+          Preference.askBeforeCopyImage = false
+        }
+        return nil // user hit cancel
+      }
+    }
+    
+    
     func localImagePath(_ url: URL) -> String?
     {
       guard url.isFileURL else
@@ -276,36 +311,15 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
         {
           let fileName = url.lastPathComponent
           // it's a mess, refact this shit
+          // drop file is not the same dir or sub dir of docURL, ask if it should be copied in
           if false == fileExists(fileName, inDirectory: directoryURL(ofFileURL: docURL))
           {
-            let a = NSAlert()
-            a.messageText = "file  \(fileName) is not in the same directory as the document file.\n\nCopy it in?"
-            a.alertStyle = .informational
-            a.addButton(withTitle: "OK")
-            a.addButton(withTitle: "Cancel")
-            a.showsSuppressionButton = true
-            a.suppressionButton?.title = "Do this action next time."
-            if .alertFirstButtonReturn == a.runModal()
+            guard let localRelPath = localCopy(url, baseDir: directoryURL(ofFileURL: docURL)) else
             {
-              if a.suppressionButton?.state == .on
-              {
-                Preference.askBeforeCopyImage = true
-              }
-              
-              let dstURL = docURL.deletingLastPathComponent().appendingPathComponent(fileName)
-              Log.info("going to copy \(fileName) into \(directoryPathOfFileURL(docURL))")
-              try? FileManager.default.copyItem(at: url, to: dstURL)
-              return dstURL.relativePath(from: directoryURL(ofFileURL: docURL))
-            }
-            else
-            {
-              if a.suppressionButton?.state == .off
-              {
-                Preference.askBeforeCopyImage = false
-              }
+              return url.path // if user hit cancel, return the abs path
             }
             
-            return nil
+            return localRelPath
           }
           else
           {
@@ -316,29 +330,38 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
         }
       }
       else
-      { // file has not been saved
+      { // doc file has not been saved
         return url.path
       }
     }
     
     
-    if let url = sender.draggingPasteboard.readObjects(forClasses: [NSURL.self],
-                                                           options: nil)!.first as? URL,
-       let localPath = localImagePath(url)
+    guard let url = sender.draggingPasteboard.readObjects(forClasses: [NSURL.self],
+                                                          options: nil)!.first as? URL else {return false}
+    let insertionPt = self.selectedRanges[0].rangeValue
+    
+    if let localPath = localImagePath(url)
     {
-      let insertionPt = self.selectedRanges[0].rangeValue
-      let urlText = "![\(url.lastPathComponent)](\(localPath))"
+      let urlText = "![alternate text of \(url.lastPathComponent)](\(localPath))"
+      self.replaceCharacters(in: insertionPt, with: urlText)
+    }
+    else
+    {
+      let urlText = "[URL description](\(url))"
       self.replaceCharacters(in: insertionPt, with: urlText)
     }
     
+    self.didChangeText()
     return true
   }
   
-  func format(_ type: String)
+  func formatSelected(_ attributeName: String)
   {
     func textAttributeOf(_ s: String) -> String
     {
-      switch type.lowercased()
+      guard s.trim().count > 0 else {return s}
+      
+      switch attributeName.lowercased()
       {
         case "$mathjax$"   : return "$\(s)$"
         case "$$mathjax$$" : return "$$\(s)$$"
@@ -347,12 +370,15 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
         case "emphasis"    : return "_\(s)_"
         case "strong"      : return "**\(s)**"
         case "strike out"  : return "~~\(s)~~"
-        
+        case "quote"       : return ">\(s)"
+        case "email", "url": return "<\(s)>"
+        case "comment"     : return "<!--\(s)-->"
         default            : return s
       }
     }
     
     let selected = self.selectedRange()
+    guard selected.length > 0 else {return}
     guard let text = self.string.substring(with: selected) else
     {
       Log.warn("nothing selected")
@@ -360,6 +386,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
     }
     
     self.replaceCharacters(in: selected, with: textAttributeOf(String(text)))
+    self.didChangeText()
   }
 }// MarkDownEditorView
 

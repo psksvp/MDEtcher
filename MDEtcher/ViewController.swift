@@ -76,12 +76,11 @@ class ViewController: NSViewController
     {
       // sync scrolling
       guard previewView.documentHeight > 0 else {return}
-  
       let h1 = Float(editorClipView.documentRect.height)
+      guard h1 > 0 else {return} // div by 0 ?
       let h2 = Float(previewView.documentHeight)
       let p1 = Float(editorClipView.bounds.origin.y)
       let p2 = (h2 * p1) / h1
-      //print(p1, p2)
       previewView.scrollToVerticalPoint(Int(round(p2)))
     }
   }
@@ -124,8 +123,7 @@ class ViewController: NSViewController
   
   @IBAction func formatText(_ sender: NSMenuItem)
   {
-    Log.info("action from \(sender.title)")
-    self.editorView.format(sender.title)
+    self.editorView.formatSelected(sender.title)
   }
   
   @IBAction func previewCopyHTML(_ sender: Any)
