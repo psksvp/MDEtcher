@@ -6,6 +6,7 @@ commit:
 push:	
 	git push origin
 	git push gitlab
+	git push github
 	
 versioning:
 	/bin/sh autoBuildNo.sh 
@@ -32,7 +33,7 @@ zip: release
 	mv ./DerivedData/MDEtcher/Build/Products/Release/MDEtcher.app.zip .
 	
 clean:
-	rm -rf ./DerivedData/MDEtcher/Build
+	rm -rf ./DerivedData
 	rm -f MDEtcher.app.zip
 	
 run: runDebug
