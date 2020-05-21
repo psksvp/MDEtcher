@@ -67,7 +67,7 @@ let plist = """
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2020 psksvp. All rights reserved.</string>
+	<string>Copyright © 2020 psksvp (psksvp@gmail.com). All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

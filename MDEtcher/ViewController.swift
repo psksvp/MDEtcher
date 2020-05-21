@@ -189,11 +189,7 @@ class ViewController: NSViewController
       path in
       WorkPrograssWindowController.shared.show("Exporting: \(path)")
       self.editorView.proofReader.text = self.editorView.string
-      DispatchQueue.global(qos: .background).async
-      {
-        self.editorView.proofReader.start(toURL: URL(fileURLWithPath: path))
-      }
-      WorkPrograssWindowController.shared.hide()
+      self.editorView.proofReader.start(toURL: URL(fileURLWithPath: path))
     }
   }
   

@@ -370,6 +370,7 @@ class MarkDownEditorView: NSTextView, NSTextViewDelegate
         case "emphasis"    : return "_\(s)_"
         case "strong"      : return "**\(s)**"
         case "strike out"  : return "~~\(s)~~"
+        case "center"      : return "<center>\(s)</center>"
         case "quote"       : return ">\(s)"
         case "email", "url": return "<\(s)>"
         case "comment"     : return "<!--\(s)-->"

@@ -97,7 +97,8 @@ class Pandoc
     let rscPath = rp == nil ? [] : ["--resource-path=\(rp!)"]
     
     let args = ["--css=\(cssPath)",
-                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables+strikeout+backtick_code_blocks+auto_identifiers+citations+example_lists+fancy_lists+header_attributes+yaml_metadata_block",
+                //"--from=markdown",
+                "--from=markdown_strict+tex_math_dollars+footnotes+subscript+superscript+table_captions+grid_tables+multiline_tables+pipe_tables+simple_tables+strikeout+backtick_code_blocks+auto_identifiers+citations+example_lists+fancy_lists+header_attributes+link_attributes+yaml_metadata_block",
                 "--to=html5",
                 "--self-contained",
                 "-s",

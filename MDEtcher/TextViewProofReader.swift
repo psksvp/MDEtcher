@@ -200,6 +200,7 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
       if let fileURL = url
       {
         writingToFile = true
+        WorkPrograssWindowController.shared.message = ""
         self.synthesizer.startSpeaking(s, to: fileURL)
       }
       else
@@ -260,12 +261,19 @@ class TextViewProofReader: NSObject, NSSpeechSynthesizerDelegate
     if self.writingToFile,
        let word = string.substring(with: characterRange)
     {
-      WorkPrograssWindowController.shared.message.append("\(word)")
+      DispatchQueue.main.async
+      {
+        WorkPrograssWindowController.shared.message.append("\(word)")
+      }
+      
     }
     else
     {
       guard let r = rangeOfWordTTSWillSpeak() else {return}
-      self.textView.setSelectedRange(r)
+      DispatchQueue.main.async
+      {
+        self.textView.setSelectedRange(r)
+      }
     }
   }
   
