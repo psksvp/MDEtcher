@@ -2,7 +2,7 @@
 
 MDEtcher is yet another markdown editor. It was inspired by MacDown. 
 
-For more info, please [go here]( https://psksvp.github.io/MDEtcher/)
+For more info, please [go here]( https://psksvp.github.io/MDEtcher/index.html)
 
 ## Features
 
